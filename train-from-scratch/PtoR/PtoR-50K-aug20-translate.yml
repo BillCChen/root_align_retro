@@ -1,10 +1,13 @@
-model: exp/USPTO_50K_PtoR_aug20/average_model_56-60.pt
-src: dataset/USPTO_50K_PtoR_aug20/test/src-test.txt
-output: exp/USPTO_50K_PtoR_aug20/average_model_56-60-results.txt
+# model: exp/USPTO_50K_PtoR_aug20/average_model_56-60.pt
+# src: dataset/USPTO_50K_PtoR_aug20/test/src-test.txt
+# output: exp/USPTO_50K_PtoR_aug20/average_model_56-60-results.txt
+model: /root/retro_synthesis/root_align_retro/models/PtoR/USPTO_50K_PtoR.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/src-test.txt
+output: /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20/USPTO_50K_PtoR.txt
 gpu: 0
 beam_size: 10
 n_best: 10
-batch_size: 8192
+batch_size: 16392
 batch_type: tokens
 max_length: 500
 seed: 0

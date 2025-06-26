@@ -12,3 +12,7 @@ exp/
 exp/*
 others/
 others/*
+
+sample/
+reinforcement_model/
+logs/
