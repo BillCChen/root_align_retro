@@ -1,0 +1,11 @@
+model: models/PtoTMP/finetune_average_model_26-30.pt
+src: /root/retro_synthesis/root_align_retro/dataset/USPTO_50K_PtoTMPtoR_aug20_trash/test/src-test-mini.txt
+output: sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30.txt
+gpu: 0
+beam_size: 10
+n_best: 10
+batch_size: 8192
+batch_type: tokens
+max_length: 500
+seed: 0
+

@@ -46,7 +46,7 @@ batch_size: 64
 valid_batch_size: 64
 batch_type: sents
 normalization: sents
-dropout: 0.1
+dropout: 0.3
 attention_dropout: 0.3
 label_smoothing: 0.0
 

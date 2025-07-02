@@ -1,0 +1,203 @@
+root@jinhw-Precision-7960-Tower-cqx3 ~/retro_synthesis/root_align_retro main*
+r-smiles ❯ # # for most use PtoTMP
+python score.py \
+        -beam_size 10 \
+        -n_best 10 \
+        -augmentation 20 \
+        -targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product-mini.txt \
+        -predictions /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30.txt \
+        -process_number 8 \
+        -score_alpha 1 \
+        -save_file /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30-results.txt
+Namespace(augmentation=20, beam_size=10, detailed=False, length=-1, n_best=10, predictions='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30.txt', process_number=8, raw=False, save_accurate_indices='', save_file='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30-results.txt', score_alpha=1.0, sources='', synthon=False, targets='/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product-mini.txt')
+Reading predictions from file ...
+80000
+Canonicalizing predictions using Process Number  8
+data size  400
+Reading targets from file ...
+Origin File Length 8000
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 908349.54it/s]
+Origin Target Lentgh,  400
+Cutted Length,  400
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 6467.28it/s]
+Top-1 Acc:15.750%, MaxFrag 16.000%,  Invalid SMILES:66.888% Sorted Invalid SMILES:0.787%
+Top-2 Acc:19.250%, MaxFrag 19.500%,  Invalid SMILES:68.825% Sorted Invalid SMILES:1.350%
+Top-3 Acc:19.500%, MaxFrag 19.750%,  Invalid SMILES:69.037% Sorted Invalid SMILES:1.688%
+Top-4 Acc:20.500%, MaxFrag 20.750%,  Invalid SMILES:68.825% Sorted Invalid SMILES:1.925%
+Top-5 Acc:21.000%, MaxFrag 21.250%,  Invalid SMILES:69.788% Sorted Invalid SMILES:2.250%
+Top-6 Acc:21.250%, MaxFrag 21.500%,  Invalid SMILES:68.975% Sorted Invalid SMILES:2.325%
+Top-7 Acc:21.250%, MaxFrag 21.500%,  Invalid SMILES:71.200% Sorted Invalid SMILES:2.600%
+Top-8 Acc:21.500%, MaxFrag 21.750%,  Invalid SMILES:71.325% Sorted Invalid SMILES:2.800%
+Top-9 Acc:21.500%, MaxFrag 21.750%,  Invalid SMILES:74.300% Sorted Invalid SMILES:2.950%
+Top-10 Acc:21.500%, MaxFrag 21.750%,  Invalid SMILES:77.087% Sorted Invalid SMILES:3.113%
+Unique Rates:56.425%
+
+
+
+r-smiles ❯ # # for most use PtoR
+python score.py \
+        -beam_size 10 \
+        -n_best 10 \
+        -augmentation 20 \
+        -targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt \
+        -predictions /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20/USPTO_50K_PtoR.txt \
+        -process_number 8 \
+        -score_alpha 1 \
+        -save_file /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20/USPTO_50K_PtoR_result.txt
+Namespace(augmentation=20, beam_size=10, detailed=False, length=-1, n_best=10, predictions='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20/USPTO_50K_PtoR.txt', process_number=8, raw=False, save_accurate_indices='', save_file='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20/USPTO_50K_PtoR_result.txt', score_alpha=1.0, sources='', synthon=False, targets='/root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt')
+Reading predictions from file ...
+80000
+Canonicalizing predictions using Process Number  8
+data size  400
+Reading targets from file ...
+Origin File Length 8000
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 696150.04it/s]
+Origin Target Lentgh,  400
+Cutted Length,  400
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 3846.11it/s]
+Top-1 Acc:54.000%, MaxFrag 60.750%,  Invalid SMILES:0.175% Sorted Invalid SMILES:0.000%
+Top-2 Acc:69.000%, MaxFrag 75.500%,  Invalid SMILES:0.938% Sorted Invalid SMILES:0.000%
+Top-3 Acc:78.250%, MaxFrag 84.000%,  Invalid SMILES:2.112% Sorted Invalid SMILES:0.000%
+Top-4 Acc:83.250%, MaxFrag 87.000%,  Invalid SMILES:2.925% Sorted Invalid SMILES:0.000%
+Top-5 Acc:85.500%, MaxFrag 89.250%,  Invalid SMILES:4.562% Sorted Invalid SMILES:0.000%
+Top-6 Acc:88.000%, MaxFrag 91.000%,  Invalid SMILES:5.175% Sorted Invalid SMILES:0.000%
+Top-7 Acc:89.750%, MaxFrag 92.500%,  Invalid SMILES:8.475% Sorted Invalid SMILES:0.000%
+Top-8 Acc:90.250%, MaxFrag 93.000%,  Invalid SMILES:14.737% Sorted Invalid SMILES:0.000%
+Top-9 Acc:90.750%, MaxFrag 93.000%,  Invalid SMILES:26.413% Sorted Invalid SMILES:0.000%
+Top-10 Acc:91.500%, MaxFrag 93.500%,  Invalid SMILES:41.150% Sorted Invalid SMILES:0.000%
+Unique Rates:100.000%
+
+root@jinhw-Precision-7960-Tower-cqx3 ~/retro_synthesis/root_align_retro main*
+r-smiles ❯ 
+
+
+root@jinhw-Precision-7960-Tower-cqx3 ~/retro_synthesis/root_align_retro main*
+r-smiles ❯ python score.py \
+        -beam_size 10 \
+        -n_best 10 \
+        -augmentation 20 \
+        -targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt \
+        -predictions /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_26-30.txt \
+        -process_number 8 \
+        -score_alpha 1 \
+        -save_file  /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_26-30-results.txt
+Namespace(augmentation=20, beam_size=10, detailed=False, length=-1, n_best=10, predictions='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_26-30.txt', process_number=8, raw=False, save_accurate_indices='', save_file='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_26-30-results.txt', score_alpha=1.0, sources='', synthon=False, targets='/root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt')
+Reading predictions from file ...
+80000
+Canonicalizing predictions using Process Number  8
+data size  400
+Reading targets from file ...
+Origin File Length 8000
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 636223.59it/s]
+Origin Target Lentgh,  400
+Cutted Length,  400
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 3901.31it/s]
+Top-1 Acc:34.000%, MaxFrag 46.250%,  Invalid SMILES:8.775% Sorted Invalid SMILES:0.000%
+Top-2 Acc:47.750%, MaxFrag 61.000%,  Invalid SMILES:12.463% Sorted Invalid SMILES:0.000%
+Top-3 Acc:54.250%, MaxFrag 68.000%,  Invalid SMILES:16.525% Sorted Invalid SMILES:0.000%
+Top-4 Acc:60.000%, MaxFrag 71.500%,  Invalid SMILES:18.188% Sorted Invalid SMILES:0.000%
+Top-5 Acc:64.000%, MaxFrag 75.250%,  Invalid SMILES:20.475% Sorted Invalid SMILES:0.000%
+Top-6 Acc:66.750%, MaxFrag 78.000%,  Invalid SMILES:22.012% Sorted Invalid SMILES:0.000%
+Top-7 Acc:68.750%, MaxFrag 80.000%,  Invalid SMILES:22.450% Sorted Invalid SMILES:0.000%
+Top-8 Acc:70.500%, MaxFrag 82.000%,  Invalid SMILES:25.925% Sorted Invalid SMILES:0.000%
+Top-9 Acc:71.500%, MaxFrag 82.750%,  Invalid SMILES:30.075% Sorted Invalid SMILES:0.000%
+Top-10 Acc:74.000%, MaxFrag 84.500%,  Invalid SMILES:40.263% Sorted Invalid SMILES:0.000%
+Unique Rates:100.000%
+
+
+
+r-smiles ❯ # # for most use PtoR
+python score.py \
+        -beam_size 10 \
+        -n_best 10 \
+        -augmentation 20 \
+        -targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt \
+        -predictions /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_16-20.txt \
+        -process_number 8 \
+        -score_alpha 1 \
+        -save_file  /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_16-20-results.txt
+Namespace(augmentation=20, beam_size=10, detailed=False, length=-1, n_best=10, predictions='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_16-20.txt', process_number=8, raw=False, save_accurate_indices='', save_file='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_16-20-results.txt', score_alpha=1.0, sources='', synthon=False, targets='/root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt')
+Reading predictions from file ...
+80000
+Canonicalizing predictions using Process Number  8
+data size  400
+Reading targets from file ...
+Origin File Length 8000
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 575547.72it/s]
+Origin Target Lentgh,  400
+Cutted Length,  400
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 3774.95it/s]
+Top-1 Acc:36.250%, MaxFrag 48.750%,  Invalid SMILES:7.950% Sorted Invalid SMILES:0.000%
+Top-2 Acc:47.250%, MaxFrag 61.500%,  Invalid SMILES:10.888% Sorted Invalid SMILES:0.000%
+Top-3 Acc:55.750%, MaxFrag 67.750%,  Invalid SMILES:13.612% Sorted Invalid SMILES:0.000%
+Top-4 Acc:62.000%, MaxFrag 73.000%,  Invalid SMILES:16.150% Sorted Invalid SMILES:0.000%
+Top-5 Acc:64.750%, MaxFrag 75.500%,  Invalid SMILES:17.413% Sorted Invalid SMILES:0.000%
+Top-6 Acc:67.750%, MaxFrag 78.250%,  Invalid SMILES:19.025% Sorted Invalid SMILES:0.000%
+Top-7 Acc:69.250%, MaxFrag 79.750%,  Invalid SMILES:20.075% Sorted Invalid SMILES:0.000%
+Top-8 Acc:70.500%, MaxFrag 80.250%,  Invalid SMILES:23.512% Sorted Invalid SMILES:0.000%
+Top-9 Acc:71.750%, MaxFrag 80.750%,  Invalid SMILES:27.363% Sorted Invalid SMILES:0.000%
+Top-10 Acc:72.250%, MaxFrag 81.500%,  Invalid SMILES:36.225% Sorted Invalid SMILES:0.000%
+Unique Rates:100.000%
+
+root@jinhw-Precision-7960-Tower-cqx3 ~/retro_synthesis/root_align_retro main
+
+r-smiles ❯ bash score_inference_score.sh
+[2025-07-02 09:42:12,662 INFO] Translating shard 0.
+[2025-07-02 09:43:38,937 INFO] PRED AVG SCORE: -0.0086, PRED PPL: 1.0086
+Namespace(augmentation=20, beam_size=10, detailed=False, length=-1, n_best=10, predictions='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30.txt', process_number=8, raw=False, save_accurate_indices='', save_file='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30-results.txt', score_alpha=1.0, sources='', synthon=False, targets='/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product-mini.txt')
+Reading predictions from file ...
+80000
+Canonicalizing predictions using Process Number  8
+data size  400
+Reading targets from file ...
+Origin File Length 8000
+100%|███████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 952168.90it/s]
+Origin Target Lentgh,  400
+Cutted Length,  400
+100%|█████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 5411.90it/s]
+Top-1 Acc:15.500%, MaxFrag 15.750%,  Invalid SMILES:66.900% Sorted Invalid SMILES:0.787%
+Top-2 Acc:18.250%, MaxFrag 18.500%,  Invalid SMILES:68.175% Sorted Invalid SMILES:1.225%
+Top-3 Acc:19.500%, MaxFrag 19.750%,  Invalid SMILES:68.025% Sorted Invalid SMILES:1.575%
+Top-4 Acc:20.500%, MaxFrag 20.750%,  Invalid SMILES:68.925% Sorted Invalid SMILES:1.800%
+Top-5 Acc:20.750%, MaxFrag 21.000%,  Invalid SMILES:68.637% Sorted Invalid SMILES:2.125%
+Top-6 Acc:21.750%, MaxFrag 22.000%,  Invalid SMILES:69.213% Sorted Invalid SMILES:2.337%
+Top-7 Acc:22.250%, MaxFrag 22.500%,  Invalid SMILES:69.975% Sorted Invalid SMILES:2.488%
+Top-8 Acc:22.250%, MaxFrag 22.500%,  Invalid SMILES:70.500% Sorted Invalid SMILES:2.700%
+Top-9 Acc:22.250%, MaxFrag 22.500%,  Invalid SMILES:72.787% Sorted Invalid SMILES:2.800%
+Top-10 Acc:22.250%, MaxFrag 22.500%,  Invalid SMILES:75.775% Sorted Invalid SMILES:3.038%
+Unique Rates:58.250%
+
+==> 使用了-synthon参数后
+r-smiles ❯ python score.py \
+        -beam_size 10 \
+        -n_best 10 \
+        -augmentation 20 \
+        -targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product-mini.txt \
+        -predictions /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30.txt \
+        -process_number 8 \
+        -score_alpha 1 \
+        -save_file /root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30-results.txt \ 
+        -synthon
+
+Namespace(augmentation=20, beam_size=10, detailed=False, length=-1, n_best=10, predictions='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30.txt', process_number=8, raw=False, save_accurate_indices='', save_file='/root/retro_synthesis/root_align_retro/sample/USPTO_50K_PtoTMP_aug20/finetune_average_model_26-30-results.txt', score_alpha=1.0, sources='', synthon=True, targets='/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product-mini.txt')
+Reading predictions from file ...
+80000
+Canonicalizing predictions using Process Number  8
+data size  400
+Reading targets from file ...
+Origin File Length 8000
+100%|██████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 1056499.75it/s]
+Origin Target Lentgh,  400
+Cutted Length,  400
+100%|█████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:00<00:00, 3987.44it/s]
+Top-1 Acc:45.000%, MaxFrag 45.000%,  Invalid SMILES:0.675% Sorted Invalid SMILES:0.000%
+Top-2 Acc:54.250%, MaxFrag 54.250%,  Invalid SMILES:2.737% Sorted Invalid SMILES:0.000%
+Top-3 Acc:61.250%, MaxFrag 61.250%,  Invalid SMILES:3.550% Sorted Invalid SMILES:0.000%
+Top-4 Acc:66.250%, MaxFrag 66.250%,  Invalid SMILES:4.487% Sorted Invalid SMILES:0.000%
+Top-5 Acc:67.500%, MaxFrag 67.500%,  Invalid SMILES:5.475% Sorted Invalid SMILES:0.000%
+Top-6 Acc:69.500%, MaxFrag 69.500%,  Invalid SMILES:6.487% Sorted Invalid SMILES:0.000%
+Top-7 Acc:70.250%, MaxFrag 70.250%,  Invalid SMILES:7.938% Sorted Invalid SMILES:0.000%
+Top-8 Acc:71.750%, MaxFrag 71.750%,  Invalid SMILES:11.037% Sorted Invalid SMILES:0.000%
+Top-9 Acc:72.000%, MaxFrag 72.000%,  Invalid SMILES:17.750% Sorted Invalid SMILES:0.013%
+Top-10 Acc:72.750%, MaxFrag 72.750%,  Invalid SMILES:28.200% Sorted Invalid SMILES:0.013%
+Unique Rates:99.950%

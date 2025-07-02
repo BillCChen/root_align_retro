@@ -7,19 +7,21 @@ data:
     path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/val/tgt-val.txt
 
 n_sample: 0
-save_data: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example
-src_vocab: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example.vocab.src
-tgt_vocab: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example.vocab.src
+save_data: dataset/USPTO_full_pretrain_aug5_masked_token/example
+src_vocab: dataset/USPTO_full_pretrain_aug5_masked_token/example.vocab.src
+tgt_vocab: dataset/USPTO_full_pretrain_aug5_masked_token/example.vocab.src
 share_vocab: 'true'
 src_seq_length: 500
 tgt_seq_length: 500
-overwrite: 'true'
+overwrite: 'False'
 
-save_model: models/USPTO_50K_PtoR_aug20_abs_pos/model.product-reactants
+train_from: /root/retro_synthesis/root_align_retro/models/pretrained/reactant_pretrained.pt
+reset_optim: 'all'
+save_model: /root/retro_synthesis/root_align_retro/models/PtoR_retrain/finetune_model.p2r_retrain
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
-train_steps: 600000
+train_steps: 300000
 valid_steps: 50000
 warmup_steps: 8000
 report_every: 1000
@@ -44,7 +46,7 @@ batch_size: 128
 valid_batch_size: 128
 batch_type: sents
 normalization: sents
-dropout: 0.3
+dropout: 0.1
 attention_dropout: 0.3
 label_smoothing: 0.0
 
@@ -58,3 +60,8 @@ world_size: 2
 gpu_ranks:
 - 0
 - 1
+
+# 日志监控
+log_file: /root/retro_synthesis/root_align_retro/logs/P2R-finetune_retrain.log
+tensorboard: True
+tensorboard_log_dir: /root/retro_synthesis/root_align_retro/tensorboard/P2R-finetune

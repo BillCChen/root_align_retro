@@ -16,3 +16,5 @@ others/*
 sample/
 reinforcement_model/
 logs/
+
+*.ipynb

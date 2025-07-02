@@ -1,6 +1,6 @@
-model: models/P2R/USPTO_50K_P2R.pt
+model: models/PtoR_retrain/finefinetune_retrain_average_model_16-20.pt
 src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/tgt-test.txt
-output: sample/USPTO_50K_PtoR_aug20/inference_out.txt
+output: sample/USPTO_50K_PtoR_aug20_retrain/finetune_average_model_16-20.txt
 gpu: 0
 beam_size: 10
 n_best: 10

@@ -13,12 +13,12 @@ from tqdm import tqdm
 
 from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')
-import sys
-sys.path.append("/root/retro_synthesis/template_analysis")
-from tools.handle_templates import Get_Reaction_
-# 添加 /root/retro_synthesis/reaction_utils 的库查找路径
-sys.path.append("/root/retro_synthesis/reaction_utils")
-from rxnutils.chem.reaction import ChemicalReaction
+# import sys
+# sys.path.append("/root/retro_synthesis/template_analysis")
+# from tools.handle_templates import Get_Reaction_
+# # 添加 /root/retro_synthesis/reaction_utils 的库查找路径
+# sys.path.append("/root/retro_synthesis/reaction_utils")
+# from rxnutils.chem.reaction import ChemicalReaction
 def smi_tokenizer(smi):
     pattern = "(\[[^\]]+]|Br?|Cl?|N|O|S|P|F|I|b|c|n|o|s|p|\(|\)|\.|=|#|-|\+|\\\\|\/|:|~|@|\?|>|\*|\$|\%[0-9]{2}|[0-9])"
     regex = re.compile(pattern)
@@ -26,11 +26,11 @@ def smi_tokenizer(smi):
     assert smi == ''.join(tokens)
     return ' '.join(tokens)
 
-def precise_tempalte_extraction(reaction_smiles,jump=3,expand_ring=True):
-    template =  ChemicalReaction(reaction_smiles).generate_reaction_template(jump,expand_ring)[0].smarts
-    # 确保不要浪费内存
-    assert type(template) == str, "Template extraction failed, expected a string."
-    return template
+# def precise_tempalte_extraction(reaction_smiles,jump=3,expand_ring=True):
+#     template =  ChemicalReaction(reaction_smiles).generate_reaction_template(jump,expand_ring)[0].smarts
+#     # 确保不要浪费内存
+#     assert type(template) == str, "Template extraction failed, expected a string."
+#     return template
 
 
 def clear_map_canonical_smiles(smi, canonical=True, root=-1, type_='smarts'):
@@ -293,6 +293,8 @@ def multi_process(data):
                 aligned_reactants = [item[0] for item in sorted_reactants]
                 reactant_smi = ".".join(aligned_reactants)
                 product_tokens = smi_tokenizer(pro_smi)
+                # print("product:", pro_smi)
+                # print("product:", product_tokens)
                 reactant_tokens = smi_tokenizer(reactant_smi)
                 # tmp_tokens = smi_tokenizer(tmp)
                 # tmp2_tokens = smi_tokenizer(tmp2)
@@ -411,7 +413,7 @@ if __name__ == '__main__':
 
     else:
         datadir = '/root/retro_synthesis/root_align_retro/dataset/{}'.format(args.dataset)
-        savedir = '/root/retro_synthesis/root_align_retro/dataset/{}_PtoTMPtoR_aug{}'.format(args.dataset, args.augmentation)
+        savedir = '/root/retro_synthesis/root_align_retro/dataset/{}_PtoTMPtoR_aug{}_trash'.format(args.dataset, args.augmentation)
 
         savedir += args.postfix
         if not os.path.exists(savedir):

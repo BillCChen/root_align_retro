@@ -1,7 +1,7 @@
 data:
   corpus_1:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_full_pretrain_aug5_product_masked_token/train/src-train.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_full_pretrain_aug5_product_masked_token/train/tgt-train.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_full_pretrain_aug5_reactant_masked_token/train/src-train.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_full_pretrain_aug5_reactant_masked_token/train/tgt-train.txt
   corpus_2:
     path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/train/src-train.txt
     path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/train/tgt-train.txt
@@ -19,9 +19,9 @@ data:
     path_tgt: /root/reaction_data/pretrain_aug/USPTO_full_pretrain_aug5_reactant_masked_token/val/tgt-val.txt
 
 n_sample: -1
-save_data: dataset/USPTO_full_pretrain_aug5_masked_token/example
-src_vocab: dataset/USPTO_full_pretrain_aug5_masked_token/example.vocab.src
-tgt_vocab: dataset/USPTO_full_pretrain_aug5_masked_token/example.vocab.src
+save_data: dataset/USPTO_full_pretrain_aug5_reactant_masked_token/example
+src_vocab: dataset/USPTO_full_pretrain_aug5_reactant_masked_token/example.vocab.src
+tgt_vocab: dataset/USPTO_full_pretrain_aug5_reactant_masked_token/example.vocab.src
 share_vocab: 'true'
 src_seq_length: 1000
 tgt_seq_length: 1000

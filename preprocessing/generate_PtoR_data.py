@@ -402,6 +402,8 @@ def multi_process(data):
                 aligned_reactants = [item[0] for item in sorted_reactants]
                 reactant_smi = ".".join(aligned_reactants)
                 product_tokens = smi_tokenizer(pro_smi)
+                print("product:", pro_smi)
+                print("product:", product_tokens)
                 reactant_tokens = smi_tokenizer(reactant_smi)
 
                 return_status['src_data'].append(product_tokens)
@@ -511,7 +513,7 @@ if __name__ == '__main__':
 
     else:
         datadir = './dataset/{}'.format(args.dataset)
-        savedir = './dataset/{}_PtoR_aug{}'.format(args.dataset, args.augmentation)
+        savedir = './dataset/{}_PtoR_aug{}_trash'.format(args.dataset, args.augmentation)
 
         savedir += args.postfix
         if not os.path.exists(savedir):
