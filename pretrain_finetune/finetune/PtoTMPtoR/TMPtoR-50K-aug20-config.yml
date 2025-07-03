@@ -1,28 +1,28 @@
 data:
   corpus_1:
-    path_src: /root/retro_synthesis/root_align_retro/dataset/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product.txt
-    path_tgt: /root/retro_synthesis/root_align_retro/dataset/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant.txt
     weight: 1.0
   valid:
-    path_src: /root/retro_synthesis/root_align_retro/dataset/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product.txt
-    path_tgt: /root/retro_synthesis/root_align_retro/dataset/USPTO_50K_PtoTMPtoR_aug20/val/tmp_reactant.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_reactant.txt
 
 n_sample: 0
-save_data: dataset/USPTO_full_pretrain_aug5_masked_token/example
-src_vocab: dataset/USPTO_full_pretrain_aug5_masked_token/example.vocab.src
-tgt_vocab: dataset/USPTO_full_pretrain_aug5_masked_token/example.vocab.src
+save_data: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example
+src_vocab: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example.vocab.src
+tgt_vocab: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example.vocab.src
 share_vocab: 'true'
 src_seq_length: 500
 tgt_seq_length: 500
 overwrite: 'False'
 
-train_from: /root/retro_synthesis/root_align_retro/models/pretrained/reactant_pretrained.pt
+train_from: models/PtoR/USPTO_50K_PtoR.pt
 reset_optim: 'all'
-save_model: /root/retro_synthesis/root_align_retro/models/TMPtoR/finefinetune_model.product-template
+save_model: models/TMPtoR_fromUSPTO50K_P2R_high_dpt/finetune_model.product-template
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
-train_steps: 300000
+train_steps: 500000
 valid_steps: 50000
 warmup_steps: 8000
 report_every: 1000
@@ -47,8 +47,8 @@ batch_size: 128
 valid_batch_size: 128
 batch_type: sents
 normalization: sents
-dropout: 0.1
-attention_dropout: 0.3
+dropout: 0.4
+attention_dropout: 0.5
 label_smoothing: 0.0
 
 max_generator_batches: 0
@@ -63,6 +63,6 @@ gpu_ranks:
 - 1
 
 # 日志监控
-log_file: /root/retro_synthesis/root_align_retro/logs/TMPtoR-finetune.log
+log_file: logs/TMPtoR_fromUSPTO50K_P2R-finetune.log
 tensorboard: True
-tensorboard_log_dir: /root/retro_synthesis/root_align_retro/tensorboard/TMPtoR-finetune
+tensorboard_log_dir: tensorboard/TMPtoR_fromUSPTO50K_P2R-finetune

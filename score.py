@@ -89,7 +89,95 @@ def compute_rank(prediction,raw=False,alpha=1.0):
             rank[key] += highest[key] * -1e8
     return rank,invalid_rates
 
-
+import numpy as np
+import matplotlib.pyplot as plt
+def visualize_results(predictions,opt, accuracy, max_frag_accuracy, invalid_rates, sorted_invalid_rates):
+    # Create figure and subplots
+    fig, axs = plt.subplots(2, 2, figsize=(18, 12))
+    fig.suptitle('Model Performance Metrics: {}'.format(opt.save_file.split('/')[-2] + "--" + opt.save_file.split('/')[-1]) if opt.save_file else 'Model Performance Metrics',
+                  fontsize=16, y=1.02)
+    
+    # Prepare x-axis (top-n values)
+    top_n = np.arange(1, opt.n_best + 1)
+    display_top_n = [x for x in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 19, 49] if x <= opt.n_best]
+    
+    # Plot 1: Top-n Accuracy
+    axs[0, 0].plot(display_top_n, [accuracy[x-1]/len(predictions)*100 for x in display_top_n], 
+                'b-o', linewidth=2, markersize=8)
+    axs[0, 0].set_title('Top-n Accuracy', pad=15)
+    axs[0, 0].set_xlabel('Top-n', labelpad=10)
+    axs[0, 0].set_ylabel('Accuracy (%)', labelpad=10)
+    axs[0, 0].set_xlim(1, 10)
+    axs[0, 0].set_xticks(range(1, 11))
+    axs[0, 0].grid(True, alpha=0.3)
+    
+    # Plot 2: Max Fragment Accuracy
+    axs[0, 1].plot(display_top_n, [max_frag_accuracy[x-1]/len(predictions)*100 for x in display_top_n], 
+                'g-o', linewidth=2, markersize=8)
+    axs[0, 1].set_title('Max Fragment Accuracy', pad=15)
+    axs[0, 1].set_xlabel('Top-n', labelpad=10)
+    axs[0, 1].set_ylabel('Accuracy (%)', labelpad=10)
+    axs[0, 1].set_xlim(1, 10)
+    axs[0, 1].set_xticks(range(1, 11))
+    axs[0, 1].grid(True, alpha=0.3)
+    
+    # Plot 3: Accuracy Comparison
+    axs[1, 1].plot(display_top_n, [accuracy[x-1]/len(predictions)*100 for x in display_top_n], 
+                'b-o', label='Overall Accuracy', linewidth=2, markersize=8)
+    axs[1, 1].plot(display_top_n, [max_frag_accuracy[x-1]/len(predictions)*100 for x in display_top_n], 
+                'g-o', label='Max Frag Accuracy', linewidth=2, markersize=8)
+    axs[1, 1].set_title('Accuracy Comparison', pad=15)
+    axs[1, 1].set_xlabel('Top-n', labelpad=10)
+    axs[1, 1].set_ylabel('Accuracy (%)', labelpad=10)
+    axs[1, 1].set_xlim(1, 10)
+    axs[1, 1].set_xticks(range(1, 11))
+    axs[1, 1].legend(loc='lower right')
+    axs[1, 1].grid(True, alpha=0.3)
+    
+    # Plot 4: Invalid SMILES Comparison
+    axs[1, 0].plot(display_top_n, [invalid_rates[x-1]/len(predictions)/opt.augmentation*100 for x in display_top_n], 
+                'r-o', label='Original', linewidth=2, markersize=8)
+    axs[1, 0].plot(display_top_n, [sorted_invalid_rates[x-1]/len(predictions)/opt.augmentation*100 for x in display_top_n], 
+                'm-o', label='Sorted', linewidth=2, markersize=8)
+    axs[1, 0].set_title('Invalid SMILES Comparison', pad=15)
+    axs[1, 0].set_xlabel('Top-n', labelpad=10)
+    axs[1, 0].set_ylabel('Rate (%)', labelpad=10)
+    axs[1, 0].set_xlim(1, 10)
+    axs[1, 0].set_xticks(range(1, 11))
+    axs[1, 0].legend()
+    axs[1, 0].grid(True, alpha=0.3)
+    
+    # Plot 5: Detailed Accuracy (if available)
+    if opt.detailed:
+    #     axs[1, 1].plot(display_top_n, [topn_accuracy_chirality[x-1]/total_chirality*100 for x in display_top_n], 
+    #                 'c-o', label='With Chirality', linewidth=2, markersize=8)
+    #     axs[1, 1].plot(display_top_n, [topn_accuracy_wochirality[x-1]/(len(predictions)-total_chirality)*100 for x in display_top_n], 
+    #                 'y-o', label='Without Chirality', linewidth=2, markersize=8)
+    #     axs[1, 1].set_title('Chirality Impact', pad=15)
+    #     axs[1, 1].set_xlabel('Top-n', labelpad=10)
+    #     axs[1, 1].set_ylabel('Accuracy (%)', labelpad=10)
+    #     axs[1, 1].set_xlim(1, 10)
+    #     axs[1, 1].set_xticks(range(1, 11))
+    #     axs[1, 1].legend()
+    #     axs[1, 1].grid(True, alpha=0.3)
+    # else:
+    #     axs[1, 1].axis('off')
+        raise NotImplementedError("Detailed accuracy visualization is not implemented yet.")
+    
+    # Hide the last subplot (6th position)
+    
+    # Adjust layout to prevent overlap
+    plt.tight_layout(pad=3.0)
+    
+    # Save the figure
+    if opt.save_file:
+        base_path = os.path.splitext(opt.save_file)[0]
+        png_path = f"{base_path}.png"
+        plt.savefig(png_path, dpi=300, bbox_inches='tight')
+        print(f"Visualization saved to {png_path}")
+    else:
+        plt.show()
+    # Visualize the results
 def main(opt):
     print('Reading predictions from file ...')
     with open(opt.predictions, 'r') as f:
@@ -294,7 +382,7 @@ def main(opt):
                     f.write("")
                     f.write("\n")
 
-
+    visualize_results(predictions,opt, accuracy, max_frag_accuracy, invalid_rates, sorted_invalid_rates)
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='score.py',
