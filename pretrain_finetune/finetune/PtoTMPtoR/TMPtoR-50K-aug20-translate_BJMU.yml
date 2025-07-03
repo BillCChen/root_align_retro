@@ -1,0 +1,11 @@
+model: models/TMPtoR_fromUSPTO50K_P2R/finetune_average_model_11-15.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product.txt
+output: sample/USPTO_50K_PtoTMP_aug20_fromUSPTO50KP2R/finetune_average_model_11-15_all.txt
+gpu: 0
+beam_size: 10
+n_best: 10
+batch_size: 8192
+batch_type: tokens
+max_length: 500
+seed: 0
+
