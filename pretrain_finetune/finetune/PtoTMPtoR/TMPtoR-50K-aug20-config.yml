@@ -16,7 +16,7 @@ src_seq_length: 500
 tgt_seq_length: 500
 overwrite: 'False'
 
-train_from: models/PtoR/USPTO_50K_PtoR.pt
+train_from: models/PtoR/USPTO_50K_PtoR_high_dpt_0.6.pt
 reset_optim: 'all'
 save_model: models/TMPtoR_fromUSPTO50K_P2R_high_dpt/finetune_model.product-template
 save_checkpoint_steps: 10000
@@ -47,8 +47,8 @@ batch_size: 128
 valid_batch_size: 128
 batch_type: sents
 normalization: sents
-dropout: 0.4
-attention_dropout: 0.5
+dropout: 0.6
+attention_dropout: 0.6
 label_smoothing: 0.0
 
 max_generator_batches: 0

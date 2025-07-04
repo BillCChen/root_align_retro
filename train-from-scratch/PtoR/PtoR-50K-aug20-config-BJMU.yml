@@ -15,7 +15,7 @@ src_seq_length: 500
 tgt_seq_length: 500
 overwrite: 'true'
 
-save_model: models/USPTO_50K_PtoR_aug20_abs_pos/model.product-reactants
+save_model: models/USPTO_50K_PtoR_aug20_rope_pos/model.product-reactants
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
@@ -52,7 +52,8 @@ max_generator_batches: 0
 
 param_init: 0.0
 param_init_glorot: 'true'
-position_encoding: 'true'
+position_encoding: 'false'
+max_relative_positions: -1
 
 world_size: 2
 gpu_ranks:

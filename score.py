@@ -108,6 +108,10 @@ def visualize_results(predictions,opt, accuracy, max_frag_accuracy, invalid_rate
     axs[0, 0].set_xlabel('Top-n', labelpad=10)
     axs[0, 0].set_ylabel('Accuracy (%)', labelpad=10)
     axs[0, 0].set_xlim(1, 10)
+    # axs[0, 0].set_ylim(30, 100)
+    # y轴最大值是100%，最小值是 min( 60, min(accuracy) / len(predictions) * 100)
+    axs[0, 0].set_ylim(min(30, min(accuracy) / len(predictions) * 100), 100)
+
     axs[0, 0].set_xticks(range(1, 11))
     axs[0, 0].grid(True, alpha=0.3)
     
@@ -118,6 +122,8 @@ def visualize_results(predictions,opt, accuracy, max_frag_accuracy, invalid_rate
     axs[0, 1].set_xlabel('Top-n', labelpad=10)
     axs[0, 1].set_ylabel('Accuracy (%)', labelpad=10)
     axs[0, 1].set_xlim(1, 10)
+    # axs[0, 1].set_ylim(30, 100)
+    axs[0, 1].set_ylim(min(30, min(max_frag_accuracy) / len(predictions) * 100), 100)
     axs[0, 1].set_xticks(range(1, 11))
     axs[0, 1].grid(True, alpha=0.3)
     
@@ -130,6 +136,8 @@ def visualize_results(predictions,opt, accuracy, max_frag_accuracy, invalid_rate
     axs[1, 1].set_xlabel('Top-n', labelpad=10)
     axs[1, 1].set_ylabel('Accuracy (%)', labelpad=10)
     axs[1, 1].set_xlim(1, 10)
+    # axs[1, 1].set_ylim(30, 100)
+    axs[1, 1].set_ylim(min(30, min(accuracy + max_frag_accuracy) / len(predictions) * 100), 100)
     axs[1, 1].set_xticks(range(1, 11))
     axs[1, 1].legend(loc='lower right')
     axs[1, 1].grid(True, alpha=0.3)
