@@ -1,10 +1,10 @@
-model: models/TMPtoR_fromUSPTO50K_P2R_high_dpt/finetune_average_model_26-30.pt
-src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product-mini.txt
-output: sample/USPTO_50K_TMPtoR_aug20_trn_val_tst/finetune_TMP_model_26-30_TMP_product_val.txt
+model: models/TMPtoR_fromUSPTO50K_P2R/finetune_average_model_26-30.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR/test/tmp_product.txt
+output: sample/USPTO_50K_TMPtoR_fromUSPTO50KP2R/finetune_average_model_26-30.txt
 gpu: 0
 beam_size: 10
 n_best: 10
-batch_size: 8192
+batch_size: 16384
 batch_type: tokens
 max_length: 500
 seed: 0
