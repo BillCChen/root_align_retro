@@ -1,6 +1,3 @@
-split = "train"
-base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts.txt"
-cls_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/reaction_cls-{split}.txt"
 import numpy as np
 import pandas as pd
 import argparse
@@ -13,6 +10,15 @@ import multiprocessing
 from rdkit import Chem
 from tqdm import tqdm
 
+
+split = "train"
+base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts.txt"
+cls_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/reaction_cls-{split}.txt"
+# 添加的代码：创建分类文件夹
+cls_base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/cls"
+os.makedirs(cls_base_dir, exist_ok=True)
+for cls_id in range(1, 11):
+    os.makedirs(f"{cls_base_dir}/cls_{cls_id}", exist_ok=True)
 
 from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')
@@ -139,8 +145,8 @@ def generate_root_aligned_templates(reactant_smi, product_smi, augmentation=1):
                 templates.append(template)
 
         except Exception as e:
-            print(f"Using original reaction {reactant_smi} >> {product_smi} as fallback.")
-            templates.append(f"{reactant_smi}>>{product_smi}")  # 保留原始反应作为备选
+            print(f"Using original {k} reaction {reactant_smi[:10]} >> {product_smi[:10]} as fallback.")
+            # templates.append(f"{reactant_smi}>>{product_smi}")  # 保留原始反应作为备选
     
     return templates
 
@@ -156,26 +162,45 @@ cls_data = [line.strip() for line in cls_data if line.strip()]
 # 每 20个数据取一个
 cls_data = cls_data[::20]
 assert len(cls_data) == len(data), "The number of classification data must match the number of reactions."
-all_tmp_product = []
-all_tmp_reactant = []
 
-for reaction in tqdm(data, desc="Generating root-aligned templates"):
-    reactant, product = reaction.split('>>')
+from collections import defaultdict
+# 使用字典按类别存储模板
+cls_templates = defaultdict(lambda: {'product': [], 'reactant': []})
+
+for reaction, cls_label in tqdm(zip(data, cls_data), desc="Processing reactions by class", total=len(data)):
+    try:
+        cls_id = int(cls_label)
+        reactant, product = reaction.split('>>')
+        
+        templates = generate_root_aligned_templates(reactant, product, augmentation=20)
+        if len(templates) == 0:
+            print(f"Warning: No templates generated for reaction: {reaction[:10]}, Class: {cls_label}")
+            continue
+        if len(templates) != 20:
+            print(f"Warning: Expected 20 templates, but got {len(templates)} for reaction: {reaction}")
+            # 随机复制已有的进行补全
+        while len(templates) < 20:
+            templates.append(random.choice(templates))
+        for template in templates:
+            tmp_reactant, tmp_product = template.split('>>')
+            # Token化
+            token_reactant = smi_tokenizer(tmp_reactant)
+            token_product = smi_tokenizer(tmp_product)
+            
+            cls_templates[cls_id]['reactant'].append(token_reactant)
+            cls_templates[cls_id]['product'].append(token_product)
+            
+    except Exception as e:
+        print(f"Error processing reaction: {reaction}, Class: {cls_label}, Error: {e}")
+
+# 保存分类数据
+for cls_id, templates in cls_templates.items():
+    cls_dir = f"{cls_base_dir}/cls_{cls_id}"
     
-    # 对每个反应生成多个 root-aligned 模板
-    templates = generate_root_aligned_templates(reactant, product, augmentation=20)  # 可调整 augmentation
-    for template in templates:
-        tmp_reactant, tmp_product = template.split('>>')
-        all_tmp_reactant.append(tmp_reactant)
-        all_tmp_product.append(tmp_product)
+    with open(f"{cls_dir}/tmp_product.txt", "w") as f:
+        f.write("\n".join(templates['product']))
+    
+    with open(f"{cls_dir}/tmp_reactant.txt", "w") as f:
+        f.write("\n".join(templates['reactant']))
 
-# Token化并保存
-all_tmp_product = [smi_tokenizer(smi) for smi in all_tmp_product]
-all_tmp_reactant = [smi_tokenizer(smi) for smi in all_tmp_reactant]
-
-with open(f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_product.txt", "w") as f:
-    for smi in all_tmp_product:
-        f.write(smi + '\n')
-with open(f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_reactant.txt", "w") as f:
-    for smi in all_tmp_reactant:
-        f.write(smi + '\n')
+print("数据处理完成，已按类别保存")

@@ -1,15 +1,25 @@
 #!/bin/bash
 
-# 配置参数
-model_dir="models/TMPtoR_fromUSPTO50K_P2R_high_dpt"
-prefix="finetune_model.product-template_step_"
-output_prefix="finetune_average_model"
 
+model_dir="models/USPTO_50K_PtoR_aug20_rope_pos"
+# 配置参数1
+# prefix="finetune_model.product-template_step_"
+# 配置参数2
+prefix="model.product-reactants_step_"
+
+
+output_prefix="finetune_average_model"
 # 用户输入参数
-read -p "请输入起始检查点编号 (e.g. 110000): " start_step
-read -p "请输入结束检查点编号 (e.g. 150000): " end_step
+read -p "请输入起始检查点编号 (e.g. 10000): " start_step
+read -p "请输入结束检查点编号 (e.g. 500000): " end_step
 read -p "请输入间隔步数 (e.g. 10000): " interval
 read -p "请输入每组平均的模型数量 (e.g. 5): " group_size
+
+# 验证 interval 必须是 10000 的倍数，以便进行缩放
+if (( interval % 10000 != 0 )); then
+    echo "错误：间隔步数 (interval) 必须是 10000 的倍数才能进行缩放命名！"
+    exit 1
+fi
 
 # 计算组数
 total_steps=$((end_step - start_step))
@@ -36,7 +46,11 @@ for (( i=0; i<groups; i++ )); do
     
     # 执行平均操作
     if [ ${#models[@]} -ge 2 ]; then
-        output_file="$model_dir/${output_prefix}_${group_start:0:2}-${group_end:0:2}.pt"
+        # *** 修复点：将步数除以 10000 进行缩放命名 ***
+        scaled_start=$((group_start / 10000))
+        scaled_end=$((group_end / 10000))
+        
+        output_file="$model_dir/${output_prefix}_${scaled_start}-${scaled_end}.pt"
         echo "正在平均 ${#models[@]} 个模型: ${models[@]}"
         echo "输出到: $output_file"
         

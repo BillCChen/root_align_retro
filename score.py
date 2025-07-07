@@ -183,6 +183,20 @@ def visualize_results(predictions,opt, accuracy, max_frag_accuracy, invalid_rate
         png_path = f"{base_path}.png"
         plt.savefig(png_path, dpi=300, bbox_inches='tight')
         print(f"Visualization saved to {png_path}")
+
+        csv_path = f"{base_path}.csv"
+        top_n = np.arange(1, opt.n_best + 1)
+        display_top_n = [x for x in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 19, 49] if x <= opt.n_best]
+        data = {
+            'Top-n': display_top_n,
+            'Accuracy (%)': [accuracy[x-1]/len(predictions)*100 for x in display_top_n],
+            'Max Frag Accuracy (%)': [max_frag_accuracy[x-1]/len(predictions)*100 for x in display_top_n],
+            'Invalid Rate (%)': [invalid_rates[x-1]/len(predictions)/opt.augmentation*100 for x in display_top_n],
+            'Sorted Invalid Rate (%)': [sorted_invalid_rates[x-1]/len(predictions)/opt.augmentation*100 for x in display_top_n]
+        }
+        df = pd.DataFrame(data)
+        df.to_csv(csv_path, index=False)
+        print(f"Data saved to {csv_path}")
     else:
         plt.show()
     # Visualize the results

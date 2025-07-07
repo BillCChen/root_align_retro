@@ -1,6 +1,6 @@
-model: models/TMPtoR_fromUSPTO50K_P2R/finetune_average_model_26-30.pt
-src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR/test/tmp_product.txt
-output: sample/USPTO_50K_TMPtoR_fromUSPTO50KP2R/finetune_average_model_26-30.txt
+model: models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_average_model_18-22.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_mini.txt
+output: sample/USPTO_50K_TMPtoR_fromUSPTO50KP2R/finetune_average_model_18-22.txt
 gpu: 0
 beam_size: 10
 n_best: 10

@@ -1,6 +1,6 @@
-onmt_average_models -output  ./exp/USPTO_50K_PtoR_aug20/average_model_56-60.pt \
-    -m  exp/USPTO_50K_PtoR_aug20/model.product-reactants_step_560000.pt \
-        exp/USPTO_50K_PtoR_aug20/model.product-reactants_step_570000.pt \
-        exp/USPTO_50K_PtoR_aug20/model.product-reactants_step_580000.pt \
-        exp/USPTO_50K_PtoR_aug20/model.product-reactants_step_590000.pt \
-        exp/USPTO_50K_PtoR_aug20/model.product-reactants_step_600000.pt
+onmt_average_models -output  models/TMPtoR_fromUSPTO50K_P2R_aug20/average_model_18-22.pt \
+    -m  models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_model.product-template_step_180000.pt \
+        models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_model.product-template_step_190000.pt \
+        models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_model.product-template_step_200000.pt \
+        models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_model.product-template_step_210000.pt \
+        models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_model.product-template_step_220000.pt

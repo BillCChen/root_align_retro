@@ -51,9 +51,9 @@ label_smoothing: 0.0
 max_generator_batches: 0
 
 param_init: 0.0
-param_init_glorot: 'true'
-position_encoding: 'false'
-max_relative_positions: -1
+param_init_glorot: true
+position_encoding: true
+max_relative_positions: 8
 
 world_size: 2
 gpu_ranks:
