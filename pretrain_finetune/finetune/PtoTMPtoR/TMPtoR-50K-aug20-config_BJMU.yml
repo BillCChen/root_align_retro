@@ -1,47 +1,47 @@
 data:
   corpus_1:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_1/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_1/tmp_reactant.txt
     weight: 0.1
   corpus_2:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_2/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_2/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_2/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_2/tmp_reactant.txt
     weight: 0.1
   corpus_3:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_3/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_3/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_3/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_3/tmp_reactant.txt
     weight: 0.33
   corpus_4:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_4/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_4/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_4/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_4/tmp_reactant.txt
     weight: 1.5
   corpus_5:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_5/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_5/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_5/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_5/tmp_reactant.txt
     weight: 2.0
   corpus_6:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_6/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_6/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_6/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_6/tmp_reactant.txt
     weight: 0.15
   corpus_7:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_7/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_7/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_7/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_7/tmp_reactant.txt
     weight: 0.33
   corpus_8:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_8/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_8/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_8/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_8/tmp_reactant.txt
     weight: 1.5
   corpus_9:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_9/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_9/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_9/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_9/tmp_reactant.txt
     weight: 1.0
   corpus_10:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_10/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_10/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_10/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/train/cls/cls_10/tmp_reactant.txt
     weight: 5.0
   valid:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/val/tmp_reactant.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR/val/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR/val/tmp_reactant.txt
 
 save_data: dataset/USPTO_50K_PtoR_aug20/example
 src_vocab: dataset/USPTO_50K_PtoR_aug20/example.vocab.src
