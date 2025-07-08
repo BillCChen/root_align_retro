@@ -1,0 +1,103 @@
+data:
+  corpus_1:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_reactant.txt
+    weight: 0.1
+  corpus_2:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_2/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_2/tmp_reactant.txt
+    weight: 0.1
+  corpus_3:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_3/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_3/tmp_reactant.txt
+    weight: 0.33
+  corpus_4:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_4/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_4/tmp_reactant.txt
+    weight: 1.5
+  corpus_5:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_5/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_5/tmp_reactant.txt
+    weight: 2.0
+  corpus_6:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_6/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_6/tmp_reactant.txt
+    weight: 0.15
+  corpus_7:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_7/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_7/tmp_reactant.txt
+    weight: 0.33
+  corpus_8:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_8/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_8/tmp_reactant.txt
+    weight: 1.5
+  corpus_9:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_9/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_9/tmp_reactant.txt
+    weight: 1.0
+  corpus_10:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_10/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_10/tmp_reactant.txt
+    weight: 5.0
+  valid:
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/val/tmp_reactant.txt
+
+save_data: dataset/USPTO_50K_PtoR_aug20/example
+src_vocab: dataset/USPTO_50K_PtoR_aug20/example.vocab.src
+tgt_vocab: dataset/USPTO_50K_PtoR_aug20/example.vocab.src
+share_vocab: 'true'
+src_seq_length: 500
+tgt_seq_length: 500
+overwrite: 'False'
+
+train_from: models/PtoR/USPTO_50K_PtoR.pt
+reset_optim: 'all'
+save_model: models/TMPtoR_fromUSPTO50K_P2R_aug20_weighted_data/finetune_model.product-template
+# save_config: models/TMPtoR_fromUSPTO50K_P2R_aug20_smt3/finetune_config.yml
+save_checkpoint_steps: 10000
+keep_checkpoint: 40
+seed: 3435
+train_steps: 400000
+valid_steps: 50000
+warmup_steps: 8000
+report_every: 1000
+
+decoder_type: transformer
+encoder_type: transformer
+word_vec_size: 256
+rnn_size: 256
+layers: 6
+transformer_ff: 2048
+heads: 8
+
+accum_count: 1
+optim: adam
+adam_beta1: 0.9
+adam_beta2: 0.998
+decay_method: noam
+learning_rate: 1.0
+max_grad_norm: 0.0
+
+batch_size: 128
+valid_batch_size: 128
+batch_type: sents
+normalization: sents
+dropout: 0.3
+attention_dropout: 0.3
+label_smoothing: 0.0
+
+max_generator_batches: 0
+
+param_init: 0.0
+param_init_glorot: 'true'
+position_encoding: 'true'
+
+world_size: 4
+gpu_ranks:
+- 0
+- 1
+- 2
+- 3
+
+

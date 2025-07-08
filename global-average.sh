@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-model_dir="models/USPTO_50K_PtoR_aug20_rope_pos"
+model_dir="models/TMPtoR_fromUSPTO50K_P2R_aug20_smt1"
 # 配置参数1
-# prefix="finetune_model.product-template_step_"
+prefix="finetune_model.product-template_step_"
 # 配置参数2
-prefix="model.product-reactants_step_"
+# prefix="model.product-reactants_step_"
 
 
 output_prefix="finetune_average_model"
