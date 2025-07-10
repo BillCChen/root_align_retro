@@ -415,7 +415,7 @@ if __name__ == '__main__':
     else:
         # datadir = '/root/reaction_data/pretrain_aug/dataset/{}'.format(args.dataset)
         datadir = '/root/reaction_data/pretrain_aug/USPTO_50K_ori_csv'
-        savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}_trash'.format(args.dataset, args.augmentation)
+        savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}'.format(args.dataset, args.augmentation)
 
         savedir += args.postfix
         if not os.path.exists(savedir):

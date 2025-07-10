@@ -11,7 +11,7 @@ from rdkit import Chem
 from tqdm import tqdm
 
 
-split = "train"
+split = "test"
 base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts.txt"
 cls_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/reaction_cls-{split}.txt"
 # 添加的代码：创建分类文件夹

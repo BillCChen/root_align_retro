@@ -1,16 +1,16 @@
 data:
   corpus_1:
-    path_src: dataset/USPTO_full_PtoR_aug5/train/src-train.txt
-    path_tgt: dataset/USPTO_full_PtoR_aug5/train/tgt-train.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/train/tmp_product.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/train/tmp_reactant.txt
   valid:
-    path_src: dataset/USPTO_full_PtoR_aug5/val/src-val.txt
-    path_tgt: dataset/USPTO_full_PtoR_aug5/val/tgt-val.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/val/tmp_product.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/val/tmp_reactant.txt
 
 
 n_sample: -1
-save_data: dataset/USPTO_full_PtoR_aug5/example
-src_vocab: dataset/USPTO_full_PtoR_aug5/example.vocab.src
-tgt_vocab: dataset/USPTO_full_PtoR_aug5/example.vocab.src
+save_data: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/example
+src_vocab: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/example.tmp_vocab.src
+tgt_vocab: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/example.tmp_vocab.src
 share_vocab: 'true'
 src_seq_length: 1000
 tgt_seq_length: 1000

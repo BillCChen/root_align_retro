@@ -1,6 +1,5 @@
 split = "train"
-base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts.txt"
-cls_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/reaction_cls-{split}.txt"
+base_dir = f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/{split}/tmp_smarts.txt"
 import numpy as np
 import pandas as pd
 import argparse
@@ -17,11 +16,9 @@ from tqdm import tqdm
 from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')
 import sys
-sys.path.append("/root/retro_synthesis/template_analysis")
-from tools.handle_templates import Get_Reaction_
 # 添加 /root/retro_synthesis/reaction_utils 的库查找路径
 sys.path.append("/root/retro_synthesis/reaction_utils")
-from rxnutils.chem.reaction import ChemicalReaction
+# from rxnutils.chem.reaction import ChemicalReaction
 def smi_tokenizer(smi):
     pattern = "(\[[^\]]+]|Br?|Cl?|N|O|S|P|F|I|b|c|n|o|s|p|\(|\)|\.|=|#|-|\+|\\\\|\/|:|~|@|\?|>|\*|\$|\%[0-9]{2}|[0-9])"
     regex = re.compile(pattern)
@@ -29,11 +26,11 @@ def smi_tokenizer(smi):
     assert smi == ''.join(tokens)
     return ' '.join(tokens)
 
-def precise_tempalte_extraction(reaction_smiles,jump=3,expand_ring=True):
-    template =  ChemicalReaction(reaction_smiles).generate_reaction_template(jump,expand_ring)[0].smarts
-    # 确保不要浪费内存
-    assert type(template) == str, "Template extraction failed, expected a string."
-    return template
+# def precise_tempalte_extraction(reaction_smiles,jump=3,expand_ring=True):
+#     template =  ChemicalReaction(reaction_smiles).generate_reaction_template(jump,expand_ring)[0].smarts
+#     # 确保不要浪费内存
+#     assert type(template) == str, "Template extraction failed, expected a string."
+#     return template
 
 
 def clear_map_canonical_smiles(smi, canonical=True, root=-1, type_='smarts'):
@@ -108,6 +105,7 @@ def generate_root_aligned_templates(reactant_smi, product_smi, augmentation=1):
     pro_atom_map_numbers = list(map(int, re.findall(r"(?<=:)\d+", product_smi)))
     
     templates = []
+
     for k in range(augmentation):
         try:
             # 随机选择一个产物原子作为根（或按顺序选择）
@@ -139,8 +137,10 @@ def generate_root_aligned_templates(reactant_smi, product_smi, augmentation=1):
                 templates.append(template)
 
         except Exception as e:
-            print(f"Using original reaction {reactant_smi} >> {product_smi} as fallback.")
-            templates.append(f"{reactant_smi}>>{product_smi}")  # 保留原始反应作为备选
+            pass
+            # if k == 0:
+            #     print(f"Using original {k} reaction {reactant_smi[:10]} >> {product_smi[:10]} as fallback.")
+            # templates.append(f"{reactant_smi}>>{product_smi}")  # 保留原始反应作为备选
     
     return templates
 
@@ -149,21 +149,25 @@ with open(base_dir, 'r') as f:
     data = f.readlines()
 data = [line.strip() for line in data if line.strip()]
 
-# 读取分类信息
-with open(cls_dir, 'r') as f:
-    cls_data = f.readlines()
-cls_data = [line.strip() for line in cls_data if line.strip()]
-# 每 20个数据取一个
-cls_data = cls_data[::20]
-assert len(cls_data) == len(data), "The number of classification data must match the number of reactions."
 all_tmp_product = []
 all_tmp_reactant = []
-
-for reaction in tqdm(data, desc="Generating root-aligned templates"):
+error_num = 0
+for idx,reaction in tqdm(enumerate(data), desc="Generating root-aligned templates", total=len(data)):
     reactant, product = reaction.split('>>')
     
     # 对每个反应生成多个 root-aligned 模板
-    templates = generate_root_aligned_templates(reactant, product, augmentation=20)  # 可调整 augmentation
+    templates = generate_root_aligned_templates(reactant, product, augmentation=10)  # 可调整 augmentation
+    if len(templates) == 0:
+        print(f"Warning: No templates generated for reaction: {reaction[:10]}")
+        error_num += 1
+        if error_num % 100 == 0:
+            print(f"&&&&&&&&&&Processed {idx} templates, encountered {error_num} errors so far.")
+        continue
+    if len(templates) != 10:
+        print(f"Warning: Expected 10 templates, but got {len(templates)} for reaction: {reaction[:33]}")
+        # 随机复制已有的进行补全
+    while len(templates) < 10:
+        templates.append(random.choice(templates))
     for template in templates:
         tmp_reactant, tmp_product = template.split('>>')
         all_tmp_reactant.append(tmp_reactant)
@@ -173,9 +177,9 @@ for reaction in tqdm(data, desc="Generating root-aligned templates"):
 all_tmp_product = [smi_tokenizer(smi) for smi in all_tmp_product]
 all_tmp_reactant = [smi_tokenizer(smi) for smi in all_tmp_reactant]
 
-with open(f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_product.txt", "w") as f:
+with open(f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/{split}/tmp_product.txt", "w") as f:
     for smi in all_tmp_product:
         f.write(smi + '\n')
-with open(f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_reactant.txt", "w") as f:
+with open(f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/{split}/tmp_reactant.txt", "w") as f:
     for smi in all_tmp_reactant:
         f.write(smi + '\n')

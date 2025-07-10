@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-model_dir="models/TMPtoR_fromUSPTO50K_P2R_aug20_smt1"
+model_dir="models/TMPtoR_fromUSPTO50K_P2R_aug20_Moe_cls1"
 # 配置参数1
 prefix="finetune_model.product-template_step_"
 # 配置参数2

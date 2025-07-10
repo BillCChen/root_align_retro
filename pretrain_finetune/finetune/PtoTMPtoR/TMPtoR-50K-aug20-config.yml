@@ -1,7 +1,7 @@
 data:
   corpus_1:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_product.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_reactant.txt
   valid:
     path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product.txt
     path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_reactant.txt
@@ -15,10 +15,10 @@ src_seq_length: 500
 tgt_seq_length: 500
 overwrite: 'False'
 
-train_from: models/PtoR/USPTO_50K_PtoR_lbl_smt_0.3.pt
+train_from: models/PtoR/USPTO_50K_PtoR.pt
 reset_optim: 'all'
-save_model: models/TMPtoR_fromUSPTO50K_P2R_aug20_smt3/finetune_model.product-template
-# save_config: models/TMPtoR_fromUSPTO50K_P2R_aug20_smt3/finetune_config.yml
+save_model: models/TMPtoR_fromUSPTO50K_P2R_aug20_Moe_cls1/finetune_model.product-template
+# save_config: models/TMPtoR_fromUSPTO50K_P2R_aug20_Moe_cls1/finetune_config.yml
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
@@ -49,7 +49,7 @@ batch_type: sents
 normalization: sents
 dropout: 0.3
 attention_dropout: 0.3
-label_smoothing: 0.3
+label_smoothing: 0.0
 
 max_generator_batches: 0
 
@@ -63,6 +63,6 @@ gpu_ranks:
 - 1
 
 # 日志监控
-log_file: logs/TMPtoR_fromUSPTO50K_P2R-finetune_lbl_smt1.log
+log_file: logs/TMPtoR_fromUSPTO50K_P2R-finetune_Moe_cls1.log
 tensorboard: True
 tensorboard_log_dir: tensorboard/TMPtoR_fromUSPTO50K_P2R-finetune

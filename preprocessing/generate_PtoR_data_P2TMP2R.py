@@ -365,12 +365,15 @@ if __name__ == '__main__':
     elif args.validastrain:
         datasets = ['test', 'val', 'train']
     else:
-        datasets = ['test', 'val', 'train']
+        datasets = [ 'val', 'train']
+        # 'test',
 
     random.seed(args.seed)
     if args.dataset == "USPTO-MIT":
-        datadir = './dataset/{}'.format(args.dataset)
-        savedir = './dataset/{}_PtoR_aug{}'.format(args.dataset,args.augmentation)
+        # datadir = '/root/reaction_data/pretrain_aug/USPTO_full_ori_txt/{}'.format(args.dataset)
+        # savedir = '/root/reaction_data/pretrain_aug/USPTO_full_ori_txt/{}_PtoR_aug{}'.format(args.dataset,args.augmentation)
+        datadir = "/root/reaction_data/pretrain_aug/USPTO_full_ori_txt"
+        savedir = '/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug{}'.format(args.augmentation)
         savedir += args.postfix
         if not os.path.exists(savedir):
             os.makedirs(savedir)

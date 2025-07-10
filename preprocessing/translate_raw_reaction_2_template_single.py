@@ -1,5 +1,7 @@
 split = "train"
-base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/raw_mapping_reaction-{split}.txt"
+split_num = 20
+base_dir = f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug5/{split}/raw_mapping_reaction-{split}.txt"
+save_dir = f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug5/{split}/tmp_smarts_{split_num}.txt"
 import numpy as np
 import pandas as pd
 import argparse
@@ -77,22 +79,37 @@ def remove_atom_mapping_template(template):
 with open(base_dir, 'r') as f:
     data = f.readlines()
 data = [line.strip() for line in data if line.strip()]
+print(f"Processing {len(data)} from {split_num*100000} to {(split_num+1)*100000} reactions.")
+data = data[split_num*100000 : split_num*100000 + 100000]
+
 all_tmp = []
 store_temp = ""
 from tqdm import tqdm
-for reaction_ in tqdm(data, desc="Processing reactions", ncols=100):
+error_num = 0
+for reaction_ in tqdm(data, desc="Processing reactions"):
     reactant , product, num = reaction_.split('>>')
+
     if num == "0":
         # print(f"{reactant}>>{product}")
-        store_temp = precise_tempalte_extraction(f"{reactant}>>{product}",3)
+        try:
+            store_temp = precise_tempalte_extraction(f"{reactant}>>{product}",3)
+        except Exception as e:
+            print(f"Error processing reaction {reaction_[:66]}")
+            error_num += 1
+            if error_num % 100 == 0:
+                print(f"Processed {len(all_tmp)} reactions, encountered {error_num} errors so far.")
+            continue
         tmp_reactant,tmp_prodcut = store_temp.split('>>')
         assert len(tmp_reactant) > 0, "The reactant part of the template cannot be empty."
         assert len(tmp_prodcut) > 0, "The product part of the template cannot be empty."
         all_tmp.append(store_temp)
-    else:
-        tmp_reactant, tmp_prodcut = store_temp.split('>>')
-assert len(all_tmp) * 20 == len(data), "The number of reactants and products must match the number of reactions."
-
-with open(f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts.txt", "w") as f:
+# assert len(all_tmp) * 5 == len(data), "The number of reactants and products must match the number of reactions."
+# 输出error_num 的数字以及总数据的占比
+print(f"Total reactions processed: {len(data)}")
+print(f"Total templates extracted: {len(all_tmp)}")
+print(f"Total errors encountered: {error_num}")
+# 输出错误占比
+print(f"Error rate: {error_num / len(data) * 100:.2f}%")
+with open(save_dir, "w") as f:
     for smi in all_tmp:
         f.write(smi + '\n')
