@@ -7,22 +7,22 @@ data:
     path_src: dataset/USPTO_full_PtoTMPtoR_aug10/val/tmp_product.txt
     path_tgt: dataset/USPTO_full_PtoTMPtoR_aug10/val/tmp_reactant.txt
 
-save_data: dataset/USPTO_50K_PtoR_aug20/example
-src_vocab: dataset/USPTO_50K_PtoR_aug20/example.vocab.src
-tgt_vocab: dataset/USPTO_50K_PtoR_aug20/example.vocab.src
+save_data: dataset/USPTO_full_PtoTMPtoR_aug10/example
+src_vocab: dataset/USPTO_full_PtoTMPtoR_aug10/example.vocab.src
+tgt_vocab: dataset/USPTO_full_PtoTMPtoR_aug10/example.vocab.src
 share_vocab: 'true'
 src_seq_length: 500
 tgt_seq_length: 500
 overwrite: 'False'
 
-train_from: models/PtoR/USPTO_50K_PtoR.pt
+train_from: models/PtoR/USPTO_full_PtoR.pt
 reset_optim: 'all'
-save_model: models/TMPtoR_fromUSPTO50K_P2R_aug20_weighted_data/finetune_model.product-template
+save_model: models/TMPtoR_fromUSPTO-FULL_TMP2R_aug10/finetune_model.product-template
 # save_config: models/TMPtoR_fromUSPTO50K_P2R_aug20_smt3/finetune_config.yml
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
-train_steps: 400000
+train_steps: 600000
 valid_steps: 50000
 warmup_steps: 8000
 report_every: 1000
