@@ -1,0 +1,13 @@
+# model: models/TMPtoR_fromUSPTO-FULL_TMP2R_aug10/finetune_average_model_26-30.pt
+model: models/USPTO_FULL_TMPtoR_aug10/model_26-30.pt
+src: /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/test/tmp_product.txt
+output: sample/USPTO_full_TMPtoR_aug10/model_26-30.txt
+gpu: 0
+beam_size: 10
+n_best: 10
+ban_unk_token: True
+batch_size: 16384
+batch_type: tokens
+max_length: 200
+seed: 0
+

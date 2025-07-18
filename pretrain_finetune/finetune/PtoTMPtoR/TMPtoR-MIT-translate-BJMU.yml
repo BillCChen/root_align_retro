@@ -1,0 +1,11 @@
+model: models/USPTO_MIT_TMPtoR_fromUSPTO-MIT_TMP2R_aug10/finetune_model.product-template_step_120000.pt
+src: dataset/USPTO_MIT_PtoTMPtoR_aug10/test/tmp_product-mini.txt
+output: sample/USPTO_MIT_PtoTMPtoR_fromUSPTOMITP2R_aug10/finetune_model_12.txt
+gpu: 0
+beam_size: 10
+n_best: 10
+batch_size: 8192
+batch_type: tokens
+max_length: 500
+seed: 0
+

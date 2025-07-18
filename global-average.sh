@@ -1,14 +1,15 @@
 #!/bin/bash
 
 
-model_dir="models/TMPtoR_fromUSPTO50K_P2R_aug20_Moe_cls1"
+model_dir="models/TMPtoR_fromUSPTO-FULL_TMP2R_aug10"
 # 配置参数1
 prefix="finetune_model.product-template_step_"
+output_prefix="finetune_average_model"
 # 配置参数2
 # prefix="model.product-reactants_step_"
+# output_prefix="model"
 
 
-output_prefix="finetune_average_model"
 # 用户输入参数
 read -p "请输入起始检查点编号 (e.g. 10000): " start_step
 read -p "请输入结束检查点编号 (e.g. 500000): " end_step

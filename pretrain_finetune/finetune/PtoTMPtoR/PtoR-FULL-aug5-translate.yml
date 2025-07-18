@@ -1,0 +1,11 @@
+model: models/PtoR/USPTO_full_PtoR.pt
+src: /root/reaction_data/pretrain_aug/USPTO_full_PtoR_aug5/test/src-test_mini.txt
+output: sample/USPTO_FULL_PtoR_aug5/ori_model.txt
+gpu: 0
+beam_size: 10
+n_best: 10
+batch_size: 16384
+batch_type: tokens
+max_length: 500
+seed: 0
+
