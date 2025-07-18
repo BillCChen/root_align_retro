@@ -1,5 +1,5 @@
 model: models/USPTO_MIT_TMPtoR_fromUSPTO-MIT_TMP2R_aug10/finetune_model.product-template_step_140000.pt
-src: dataset/USPTO_MIT_PtoTMPtoR_aug10/test/tmp_product-mini.txt
+src: /root/reaction_data/pretrain_aug/USPTO_MIT_PtoTMPtoR_aug10/test/tmp_product.txt
 output: sample/USPTO_MIT_PtoTMPtoR_fromUSPTOMITP2R_aug10/finetune_model_14.txt
 gpu: 0
 beam_size: 10

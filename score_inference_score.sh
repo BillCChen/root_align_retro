@@ -9,10 +9,10 @@ python score.py \
 	-beam_size 10 \
 	-n_best 10 \
 	-augmentation 10 \
-	-targets /root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/test/tmp_reactant.txt \
+	-targets /root/reaction_data/pretrain_aug/USPTO_MIT_PtoTMPtoR_aug10/test/tmp_reactant.txt \
 	-process_number 8 \
 	-score_alpha 1 \
-	-predictions output: sample/USPTO_full_TMPtoR_aug10/model_26-30.txt \
-	-save_file   output: sample/USPTO_full_TMPtoR_aug10/model_26-30_result.txt \
+	-predictions sample/USPTO_MIT_PtoTMPtoR_fromUSPTOMITP2R_aug10/finetune_model_14.txt \
+	-save_file   sample/USPTO_MIT_PtoTMPtoR_fromUSPTOMITP2R_aug10/finetune_model_14_result.txt \
 	-synthon 
 
