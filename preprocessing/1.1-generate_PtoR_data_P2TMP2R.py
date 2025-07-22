@@ -354,7 +354,7 @@ if __name__ == '__main__':
     parser.add_argument("-postfix",type=str,default="")
     args = parser.parse_args()
     print('preprocessing dataset {}...'.format(args.dataset))
-    assert args.dataset in ['USPTO_50K', 'USPTO_full','USPTO-MIT']
+    # assert args.dataset in ['USPTO_50K', 'USPTO_full','USPTO-MIT']
     print(args)
     if args.test_only:
         datasets = ['test']
@@ -365,15 +365,14 @@ if __name__ == '__main__':
     elif args.validastrain:
         datasets = ['test', 'val', 'train']
     else:
-        datasets = [ 'val', 'train']
-        # 'test',
+        datasets = ['test', 'val', 'train']
 
     random.seed(args.seed)
-    if args.dataset == "USPTO-MIT":
-        # datadir = '/root/reaction_data/pretrain_aug/USPTO_full_ori_txt/{}'.format(args.dataset)
-        # savedir = '/root/reaction_data/pretrain_aug/USPTO_full_ori_txt/{}_PtoR_aug{}'.format(args.dataset,args.augmentation)
-        datadir = "/root/reaction_data/pretrain_aug/USPTO_full_ori_txt"
-        savedir = '/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug{}'.format(args.augmentation)
+    if args.dataset == "USPTO-FULL":
+        datadir = '/root/reaction_data/pretrain_aug/USPTO_FULL_ori/{}'.format(args.dataset)
+        savedir = '/root/reaction_data/pretrain_aug/USPTO_FULL_ori/{}_PtoR_aug{}'.format(args.dataset,args.augmentation)
+        # datadir = "/root/reaction_data/pretrain_aug/USPTO_full_ori_txt"
+        # savedir = '/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug{}'.format(args.augmentation)
         savedir += args.postfix
         if not os.path.exists(savedir):
             os.makedirs(savedir)
@@ -415,8 +414,8 @@ if __name__ == '__main__':
                 )
 
     else:
-        datadir = '/root/retro_synthesis/root_align_retro/dataset/{}'.format(args.dataset)
-        savedir = '/root/retro_synthesis/root_align_retro/dataset/{}_PtoTMPtoR_aug{}_trash'.format(args.dataset, args.augmentation)
+        datadir = '/root/reaction_data/pretrain_aug/{}'.format(args.dataset)
+        savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}_trash'.format(args.dataset, args.augmentation)
 
         savedir += args.postfix
         if not os.path.exists(savedir):

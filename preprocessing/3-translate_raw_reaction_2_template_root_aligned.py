@@ -1,5 +1,7 @@
 split = "train"
-base_dir = f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/{split}/tmp_smarts.txt"
+base = "/root/reaction_data/pretrain_aug/USPTO_FULL_ori_PtoTMPtoR_aug5"
+base_dir = f"{base}/{split}/tmp_smarts.txt"
+error_dir = f"{base}/{split}/error_tmp.txt"
 import numpy as np
 import pandas as pd
 import argparse
@@ -152,14 +154,16 @@ data = [line.strip() for line in data if line.strip()]
 all_tmp_product = []
 all_tmp_reactant = []
 error_num = 0
+error_tmp = []
 for idx,reaction in tqdm(enumerate(data), desc="Generating root-aligned templates", total=len(data)):
     reactant, product = reaction.split('>>')
     
     # 对每个反应生成多个 root-aligned 模板
     templates = generate_root_aligned_templates(reactant, product, augmentation=10)  # 可调整 augmentation
     if len(templates) == 0:
-        print(f"Warning: No templates generated for reaction: {reaction[:10]}")
+        # print(f"Warning: No templates generated for reaction: {reaction[:10]}")
         error_num += 1
+        error_tmp.append(reaction)
         if error_num % 100 == 0:
             print(f"&&&&&&&&&&Processed {idx} templates, encountered {error_num} errors so far.")
         continue
@@ -177,9 +181,13 @@ for idx,reaction in tqdm(enumerate(data), desc="Generating root-aligned template
 all_tmp_product = [smi_tokenizer(smi) for smi in all_tmp_product]
 all_tmp_reactant = [smi_tokenizer(smi) for smi in all_tmp_reactant]
 
-with open(f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/{split}/tmp_product.txt", "w") as f:
+with open(f"{base}/{split}/tmp_product.txt", "w") as f:
     for smi in all_tmp_product:
         f.write(smi + '\n')
-with open(f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug10/{split}/tmp_reactant.txt", "w") as f:
+with open(f"{base}/{split}/tmp_reactant.txt", "w") as f:
     for smi in all_tmp_reactant:
         f.write(smi + '\n')
+# 保存错误模板
+with open(error_dir, 'w') as f:
+    for err in error_tmp:
+        f.write(err + '\n')

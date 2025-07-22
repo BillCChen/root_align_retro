@@ -1,7 +1,8 @@
 split = "train"
-split_num = 20
-base_dir = f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug5/{split}/raw_mapping_reaction-{split}.txt"
-save_dir = f"/root/reaction_data/pretrain_aug/USPTO_full_PtoTMPtoR_aug5/{split}/tmp_smarts_{split_num}.txt"
+split_num = 5
+base_dir = f"/root/reaction_data/pretrain_aug/USPTO_FULL_ori_PtoTMPtoR_aug5/{split}/raw_mapping_reaction-{split}.txt"
+save_dir = f"/root/reaction_data/pretrain_aug/USPTO_FULL_ori_PtoTMPtoR_aug5/{split}/tmp_smarts_{split_num}.txt"
+error_dir = f"/root/reaction_data/pretrain_aug/USPTO_FULL_ori_PtoTMPtoR_aug5/{split}/error_reaction_{split_num}.txt"
 import numpy as np
 import pandas as pd
 import argparse
@@ -79,14 +80,16 @@ def remove_atom_mapping_template(template):
 with open(base_dir, 'r') as f:
     data = f.readlines()
 data = [line.strip() for line in data if line.strip()]
-print(f"Processing {len(data)} from {split_num*100000} to {(split_num+1)*100000} reactions.")
-data = data[split_num*100000 : split_num*100000 + 100000]
+print(f"Processing {len(data)} from {split_num*400000} to {(split_num+1)*400000} reactions.")
+data = data[split_num*400000 : split_num*400000 + 400000]
 
 all_tmp = []
 store_temp = ""
 from tqdm import tqdm
 error_num = 0
-for reaction_ in tqdm(data, desc="Processing reactions"):
+error_reaction = []
+# for reaction_ in tqdm(data, desc="Processing reactions"):
+for reaction_ in data:
     reactant , product, num = reaction_.split('>>')
 
     if num == "0":
@@ -95,6 +98,7 @@ for reaction_ in tqdm(data, desc="Processing reactions"):
             store_temp = precise_tempalte_extraction(f"{reactant}>>{product}",3)
         except Exception as e:
             print(f"Error processing reaction {reaction_[:66]}")
+            error_reaction.append(reaction_)
             error_num += 1
             if error_num % 100 == 0:
                 print(f"Processed {len(all_tmp)} reactions, encountered {error_num} errors so far.")
@@ -112,4 +116,7 @@ print(f"Total errors encountered: {error_num}")
 print(f"Error rate: {error_num / len(data) * 100:.2f}%")
 with open(save_dir, "w") as f:
     for smi in all_tmp:
+        f.write(smi + '\n')
+with open(error_dir, "w") as f:
+    for smi in error_reaction:
         f.write(smi + '\n')
