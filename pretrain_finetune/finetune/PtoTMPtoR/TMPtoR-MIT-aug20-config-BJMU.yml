@@ -57,11 +57,16 @@ param_init: 0.0
 param_init_glorot: 'true'
 position_encoding: 'true'
 
-world_size: 4
+world_size: 8
 gpu_ranks:
 - 0
 - 1
 - 2
 - 3
+- 4
+- 5
+- 6
+- 7
+
 
 
