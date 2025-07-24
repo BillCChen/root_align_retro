@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-model_dir="models/TMPtoR_fromUSPTO-MIT_TMP2R_aug10"
+model_dir="models/TMPtoR_fromUSPTO-FULL_TMP2R_aug10"
 # 配置参数1
 prefix="finetune_model.product-template_step_"
 output_prefix="finetune_average_model"
