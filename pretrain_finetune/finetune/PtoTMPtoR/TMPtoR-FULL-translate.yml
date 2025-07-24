@@ -1,10 +1,10 @@
-model: models/USPTO_FULL_TMPtoR_fromUSPTO-MIT_TMP2R_aug10/finetune_model.product-template_step_140000.pt
-src: /root/reaction_data/pretrain_aug/USPTO_FULL_PtoTMPtoR_aug10/test/tmp_product.txt
-output: sample/USPTO_FULL_PtoTMPtoR_fromUSPTOFULLP2R_aug10/finetune_model_14.txt
+model: models/USPTO_FULL_TMPtoR_fromUSPTO-FULL_TMP2R_aug10/finetune_average_model_56-60.pt
+src: /root/reaction_data/pretrain_aug/USPTO_FULL_PtoTMPtoR_aug10/test/tmp_product_mini.txt
+output: sample/USPTO_FULL_TMPtoR_fromUSPTOFULLP2R_aug10/finetune_model_56-60.txt
 gpu: 0
 beam_size: 10
 n_best: 10
-batch_size: 8192
+batch_size: 2048
 batch_type: tokens
 max_length: 500
 seed: 0

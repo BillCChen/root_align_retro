@@ -1,7 +1,7 @@
 data:
   corpus_1:
-    path_src: dataset/USPTO_FULL_PtoTMPtoR_aug10/train/tmp_product.txt
-    path_tgt: dataset/USPTO_FULL_PtoTMPtoR_aug10/train/tmp_reactant.txt
+    path_src: dataset/USPTO_FULL_PtoTMPtoR_aug10/train/tmp_product_no_colon.txt
+    path_tgt: dataset/USPTO_FULL_PtoTMPtoR_aug10/train/tmp_reactant_no_colon.txt
     weight: 1.0
   valid:
     path_src: dataset/USPTO_FULL_PtoTMPtoR_aug10/val/tmp_product.txt
