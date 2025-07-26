@@ -204,6 +204,7 @@ def main(opt):
     print('Reading predictions from file ...')
     with open(opt.predictions, 'r') as f:
         lines = [''.join(line.strip().split(' ')) for line in f.readlines()]
+        # lines = lines[:500000]
         print(len(lines))
         data_size = len(lines) // (opt.augmentation * opt.beam_size) if opt.length == -1 else opt.length
         lines = lines[:data_size * (opt.augmentation * opt.beam_size)]

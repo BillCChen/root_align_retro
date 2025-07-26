@@ -133,6 +133,7 @@ def preprocess(save_dir, reactants, products,set_name, augmentation=1, reaction_
         'error_mapping_p':0,
         'empty_p':0,
         'empty_r':0,
+        'error_main_function':0
     }
     processes = multiprocessing.cpu_count() if processes < 0 else processes
     pool = multiprocessing.Pool(processes=processes)
@@ -198,8 +199,10 @@ def multi_process(data):
     product = data['product']
     reactant = data['reactant']
     augmentation = data['augmentation']
-    pro_mol = Chem.MolFromSmiles(product)
-    rea_mol = Chem.MolFromSmiles(reactant)
+    # pro_mol = Chem.MolFromSmiles(product)
+    # rea_mol = Chem.MolFromSmiles(reactant)
+    pro_mol = Chem.MolFromSmarts(product)
+    rea_mol = Chem.MolFromSmarts(reactant)
     """checking data quality"""
     rids = sorted(re.findall(pt, reactant))
     pids = sorted(re.findall(pt, product))
@@ -213,127 +216,143 @@ def multi_process(data):
         "edit_distance":0,
         "edit_distance_std":0,
     }
-    # if ",".join(rids) != ",".join(pids):  # mapping is not 1:1
-    #     return_status["status"] = "error_mapping"
-    # if len(set(rids)) != len(rids):  # mapping is not 1:1
-    #     return_status["status"] = "error_mapping"
-    # if len(set(pids)) != len(pids):  # mapping is not 1:1
-    #     return_status["status"] = "error_mapping"
+    if ",".join(rids) != ",".join(pids):  # mapping is not 1:1
+        return_status["status"] = "error_mapping"
+    if len(set(rids)) != len(rids):  # mapping is not 1:1
+        return_status["status"] = "error_mapping"
+    if len(set(pids)) != len(pids):  # mapping is not 1:1
+        return_status["status"] = "error_mapping"
     if "" == product:
         return_status["status"] = "empty_p"
+    try:
+        if len(rea_mol.GetAtoms()) < 5:
+            return_status["status"] = "invalid_r"
+    except:
+        return_status["status"] = "invalid_r"
+    try:
+        if len(pro_mol.GetAtoms()) < 5:
+            return_status["status"] = "invalid_p"
+    except:
+        return_status["status"] = "invalid_p"
     if "" == reactant:
         return_status["status"] = "empty_r"
     if rea_mol is None:
         return_status["status"] = "invalid_r"
-    if len(rea_mol.GetAtoms()) < 5:
-        return_status["status"] = "small_r"
+    # if len(rea_mol.GetAtoms()) < 5:
+        # return_status["status"] = "small_r"
     if pro_mol is None:
         return_status["status"] = "invalid_p"
-    if len(pro_mol.GetAtoms()) == 1:
-        return_status["status"] = "small_p"
+    # if len(pro_mol.GetAtoms()) == 1:
+    #     return_status["status"] = "small_p"
     if not all([a.HasProp('molAtomMapNumber') for a in pro_mol.GetAtoms()]):
         return_status["status"] = "error_mapping_p"
     """finishing checking data quality"""
+    try:
+        if return_status['status'] == 0:
+            pro_atom_map_numbers = list(map(int, re.findall(r"(?<=:)\d+", product)))
+            reactant = reactant.split(".")
+            if data['root_aligned']:
+                reversable = False  # no shuffle
+                # augmentation = 100
+                if augmentation == 999:
+                    product_roots = pro_atom_map_numbers
+                    times = len(product_roots)
+                else:
+                    product_roots = [-1]
+                    # reversable = len(reactant) > 1
 
-    if return_status['status'] == 0:
-        pro_atom_map_numbers = list(map(int, re.findall(r"(?<=:)\d+", product)))
-        reactant = reactant.split(".")
-        if data['root_aligned']:
-            reversable = False  # no shuffle
-            # augmentation = 100
-            if augmentation == 999:
-                product_roots = pro_atom_map_numbers
-                times = len(product_roots)
-            else:
-                product_roots = [-1]
-                # reversable = len(reactant) > 1
-
-                max_times = len(pro_atom_map_numbers)
-                times = min(augmentation, max_times)
-                if times < augmentation:  # times = max_times
-                    product_roots.extend(pro_atom_map_numbers)
-                    product_roots.extend(random.choices(product_roots, k=augmentation - len(product_roots)))
-                else:  # times = augmentation
-                    while len(product_roots) < times:
-                        product_roots.append(random.sample(pro_atom_map_numbers, 1)[0])
-                        # pro_atom_map_numbers.remove(product_roots[-1])
-                        if product_roots[-1] in product_roots[:-1]:
-                            product_roots.pop()
-                times = len(product_roots)
-                assert times == augmentation
-                if reversable:
-                    times = int(times / 2)
-            # candidates = []
-            # template = remove_atom_mapping_template(precise_tempalte_extraction(f"{'.'.join(reactant)}>>{product}",3))
-            
-            # tmp2,tmp = template.split('>>')
-            for k in range(times):
-                pro_root_atom_map = product_roots[k]
-                pro_root = get_root_id(pro_mol, root_map_number=pro_root_atom_map)
-                cano_atom_map = get_cano_map_number(product, root=pro_root)
-                if cano_atom_map is None:
-                    return_status["status"] = "error_mapping"
-                    return return_status
-                pro_smi = clear_map_canonical_smiles(product, canonical=True, root=pro_root)
-                aligned_reactants = []
-                aligned_reactants_order = []
-                rea_atom_map_numbers = [list(map(int, re.findall(r"(?<=:)\d+", rea))) for rea in reactant]
-                used_indices = []
-                for i, rea_map_number in enumerate(rea_atom_map_numbers):
-                    for j, map_number in enumerate(cano_atom_map):
-                        # select mapping reactans
-                        if map_number in rea_map_number:
-                            rea_root = get_root_id(Chem.MolFromSmiles(reactant[i]), root_map_number=map_number)
-                            rea_smi = clear_map_canonical_smiles(reactant[i], canonical=True, root=rea_root)
-                            aligned_reactants.append(rea_smi)
-                            aligned_reactants_order.append(j)
-                            used_indices.append(i)
-                            break
-                sorted_reactants = sorted(list(zip(aligned_reactants, aligned_reactants_order)), key=lambda x: x[1])
-                aligned_reactants = [item[0] for item in sorted_reactants]
-                reactant_smi = ".".join(aligned_reactants)
-                product_tokens = smi_tokenizer(pro_smi)
-                # print("product:", pro_smi)
-                # print("product:", product_tokens)
-                reactant_tokens = smi_tokenizer(reactant_smi)
-                # tmp_tokens = smi_tokenizer(tmp)
-                # tmp2_tokens = smi_tokenizer(tmp2)
-                # if len(tmp_tokens) > 1 and len(tmp2_tokens) > 1:
-                return_status['src_data'].append(product_tokens)
-                return_status['tgt_data'].append(reactant_tokens)
-                return_status['raw_mapping_data'].append(f"{'.'.join(reactant)}>>{product}>>{k}")
-                    # return_status['tmp_data'].append(tmp_tokens)
-                    # return_status['tmp_data2'].append(tmp2_tokens)
-                # else:
-                #     print(f"Original: {pro_smi}>>{reactant_smi}")
-                #     print(f"Template {tmp} or {tmp2} is too short, skipping.")
-                if reversable:
-                    aligned_reactants.reverse()
+                    max_times = len(pro_atom_map_numbers)
+                    times = min(augmentation, max_times)
+                    if times < augmentation:  # times = max_times
+                        product_roots.extend(pro_atom_map_numbers)
+                        product_roots.extend(random.choices(product_roots, k=augmentation - len(product_roots)))
+                    else:  # times = augmentation
+                        while len(product_roots) < times:
+                            product_roots.append(random.sample(pro_atom_map_numbers, 1)[0])
+                            # pro_atom_map_numbers.remove(product_roots[-1])
+                            if product_roots[-1] in product_roots[:-1]:
+                                product_roots.pop()
+                    times = len(product_roots)
+                    assert times == augmentation
+                    if reversable:
+                        times = int(times / 2)
+                # candidates = []
+                # template = remove_atom_mapping_template(precise_tempalte_extraction(f"{'.'.join(reactant)}>>{product}",3))
+                
+                # tmp2,tmp = template.split('>>')
+                for k in range(times):
+                    pro_root_atom_map = product_roots[k]
+                    pro_root = get_root_id(pro_mol, root_map_number=pro_root_atom_map)
+                    cano_atom_map = get_cano_map_number(product, root=pro_root)
+                    if cano_atom_map is None:
+                        return_status["status"] = "error_mapping"
+                        return return_status
+                    pro_smi = clear_map_canonical_smiles(product, canonical=True, root=pro_root)
+                    aligned_reactants = []
+                    aligned_reactants_order = []
+                    rea_atom_map_numbers = [list(map(int, re.findall(r"(?<=:)\d+", rea))) for rea in reactant]
+                    used_indices = []
+                    for i, rea_map_number in enumerate(rea_atom_map_numbers):
+                        for j, map_number in enumerate(cano_atom_map):
+                            # select mapping reactans
+                            if map_number in rea_map_number:
+                                # rea_root = get_root_id(Chem.MolFromSmiles(reactant[i]), root_map_number=map_number)
+                                rea_root = get_root_id(Chem.MolFromSmarts(reactant[i]), root_map_number=map_number)
+                                rea_smi = clear_map_canonical_smiles(reactant[i], canonical=True, root=rea_root)
+                                aligned_reactants.append(rea_smi)
+                                aligned_reactants_order.append(j)
+                                used_indices.append(i)
+                                break
+                    sorted_reactants = sorted(list(zip(aligned_reactants, aligned_reactants_order)), key=lambda x: x[1])
+                    aligned_reactants = [item[0] for item in sorted_reactants]
                     reactant_smi = ".".join(aligned_reactants)
                     product_tokens = smi_tokenizer(pro_smi)
+                    # print("product:", pro_smi)
+                    # print("product:", product_tokens)
                     reactant_tokens = smi_tokenizer(reactant_smi)
+                    # tmp_tokens = smi_tokenizer(tmp)
+                    # tmp2_tokens = smi_tokenizer(tmp2)
+                    # if len(tmp_tokens) > 1 and len(tmp2_tokens) > 1:
                     return_status['src_data'].append(product_tokens)
                     return_status['tgt_data'].append(reactant_tokens)
                     return_status['raw_mapping_data'].append(f"{'.'.join(reactant)}>>{product}>>{k}")
-            assert len(return_status['src_data']) == data['augmentation']
-        else:
-            cano_product = clear_map_canonical_smiles(product)
-            cano_reactanct = ".".join([clear_map_canonical_smiles(rea) for rea in reactant if len(set(map(int, re.findall(r"(?<=:)\d+", rea))) & set(pro_atom_map_numbers)) > 0 ])
-            return_status['src_data'].append(smi_tokenizer(cano_product))
-            return_status['tgt_data'].append(smi_tokenizer(cano_reactanct))
-            pro_mol = Chem.MolFromSmiles(cano_product)
-            rea_mols = [Chem.MolFromSmiles(rea) for rea in cano_reactanct.split(".")]
-            for i in range(int(augmentation-1)):
-                pro_smi = Chem.MolToSmiles(pro_mol,doRandom=True)
-                rea_smi = [Chem.MolToSmiles(rea_mol,doRandom=True) for rea_mol in rea_mols]
-                rea_smi = ".".join(rea_smi)
-                return_status['src_data'].append(smi_tokenizer(pro_smi))
-                return_status['tgt_data'].append(smi_tokenizer(rea_smi))
-        edit_distances = []
-        for src,tgt in zip(return_status['src_data'],return_status['tgt_data']):
-            edit_distances.append(textdistance.levenshtein.distance(src.split(),tgt.split()))
-        return_status['edit_distance'] = np.mean(edit_distances)
-        return_status['edit_distance_std'] = np.std(edit_distances)
+                        # return_status['tmp_data'].append(tmp_tokens)
+                        # return_status['tmp_data2'].append(tmp2_tokens)
+                    # else:
+                    #     print(f"Original: {pro_smi}>>{reactant_smi}")
+                    #     print(f"Template {tmp} or {tmp2} is too short, skipping.")
+                    if reversable:
+                        aligned_reactants.reverse()
+                        reactant_smi = ".".join(aligned_reactants)
+                        product_tokens = smi_tokenizer(pro_smi)
+                        reactant_tokens = smi_tokenizer(reactant_smi)
+                        return_status['src_data'].append(product_tokens)
+                        return_status['tgt_data'].append(reactant_tokens)
+                        return_status['raw_mapping_data'].append(f"{'.'.join(reactant)}>>{product}>>{k}")
+                assert len(return_status['src_data']) == data['augmentation']
+            else:
+                cano_product = clear_map_canonical_smiles(product)
+                cano_reactanct = ".".join([clear_map_canonical_smiles(rea) for rea in reactant if len(set(map(int, re.findall(r"(?<=:)\d+", rea))) & set(pro_atom_map_numbers)) > 0 ])
+                return_status['src_data'].append(smi_tokenizer(cano_product))
+                return_status['tgt_data'].append(smi_tokenizer(cano_reactanct))
+                pro_mol = Chem.MolFromSmiles(cano_product)
+                rea_mols = [Chem.MolFromSmiles(rea) for rea in cano_reactanct.split(".")]
+                for i in range(int(augmentation-1)):
+                    pro_smi = Chem.MolToSmiles(pro_mol,doRandom=True)
+                    rea_smi = [Chem.MolToSmiles(rea_mol,doRandom=True) for rea_mol in rea_mols]
+                    rea_smi = ".".join(rea_smi)
+                    return_status['src_data'].append(smi_tokenizer(pro_smi))
+                    return_status['tgt_data'].append(smi_tokenizer(rea_smi))
+            edit_distances = []
+            for src,tgt in zip(return_status['src_data'],return_status['tgt_data']):
+                edit_distances.append(textdistance.levenshtein.distance(src.split(),tgt.split()))
+            return_status['edit_distance'] = np.mean(edit_distances)
+            return_status['edit_distance_std'] = np.std(edit_distances)
+        
+    except:
+        return_status["status"] = "error_main_function"
+        
+    
     return return_status
 
 
@@ -412,7 +431,48 @@ if __name__ == '__main__':
                     character=args.character,
                     processes=args.processes,
                 )
+    elif args.dataset == "CHORISO":
+        datadir = '/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug10/ori_data'
+        savedir = '/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug{}/'.format(args.augmentation)
+        savedir += args.postfix
+        if not os.path.exists(savedir):
+            os.makedirs(savedir)
+        for i, data_set in enumerate(datasets):
+            with open(os.path.join(datadir,f"{data_set}.txt"),"r") as f:
+                reaction_list = f.readlines()
+                if args.validastrain and data_set == "train":
+                    with open(os.path.join(datadir, f"valid.txt"), "r") as f:
+                        reaction_list += f.readlines()
+                # reaction_list = reaction_list[:10000]
+                reactant_smarts_list = list(
+                    map(lambda x: x.split('>>')[0], reaction_list))
+                product_smarts_list = list(
+                    map(lambda x: x.split('>>')[1], reaction_list))
+                product_smarts_list = list(
+                    map(lambda x: x.split(' ')[0], product_smarts_list))
+                save_dir = os.path.join(savedir, data_set)
+                print("Total Data Size", len(reaction_list))
+                multiple_product_indices = [i for i in range(len(product_smarts_list)) if "." in product_smarts_list[i]]
+                for index in multiple_product_indices:
+                    products = product_smarts_list[index].split(".")
+                    for product in products:
+                        reactant_smarts_list.append(reactant_smarts_list[index])
+                        product_smarts_list.append(product)
+                for index in multiple_product_indices[::-1]:
+                    del reactant_smarts_list[index]
+                    del product_smarts_list[index]
 
+                src_data, tgt_data = preprocess(
+                    save_dir,
+                    reactant_smarts_list,
+                    product_smarts_list,
+                    data_set,
+                    args.augmentation,
+                    reaction_types=None,
+                    root_aligned=not args.canonical,
+                    character=args.character,
+                    processes=args.processes,
+                )
     else:
         datadir = '/root/reaction_data/pretrain_aug/{}'.format(args.dataset)
         savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}_trash'.format(args.dataset, args.augmentation)

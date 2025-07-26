@@ -1,0 +1,27 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "preprocessing/2-translate_raw_reaction_2_template_single.py", line 26, in <module>
+    from rxnutils.chem.reaction import ChemicalReaction
+  File "/root/retro_synthesis/reaction_utils/rxnutils/chem/reaction.py", line 16, in <module>
+    from rxnutils.chem.template import ReactionTemplate
+  File "/root/retro_synthesis/reaction_utils/rxnutils/chem/template.py", line 15, in <module>
+    from xxhash import xxh32
+ModuleNotFoundError: No module named 'xxhash'
+nohup: ignoring input
+Traceback (most recent call last):
+  File "preprocessing/2-translate_raw_reaction_2_template_single.py", line 80, in <module>
+    with open(base_dir, 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/train/raw_mapping_reaction-train-merged.txt'
+nohup: ignoring input
+Processing 8681790 from 0 to 400000 reactions.
+Error processing reaction CCO.C[C@@H]1CC[C@@H]2[C@@H](C1)[O:16][C@@H:15]([c:14]1[cH:13][cH:1
+Error processing reaction [CH3:1][CH:2]1[CH2:10][CH2:9][CH2:8][CH2:5][C:4]1=[O:7].CCO.[CH3:6
+Error processing reaction [CH:1]#[C:2][C:3]([CH3:4])([OH:5])[c:7]1[cH:8][cH:9][cH:10][cH:11]
+Error processing reaction BrCCBr.C1CCOC1.[CH3:1][C:2]([CH3:3])([CH3:4])[O:5][C:6](=[O:7])[CH
+Error processing reaction C1CCOC1.CO[C:3](=[O:4])[O:2][CH3:1].[O:15]=[C:14]1[CH2:5][CH2:6][c
+Error processing reaction BrC(Br)(Br)Br.[CH2:2]1CCOC1.[OH2:1].[O:10]=[C:9]1[c:11]2[cH:12][cH
+Error processing reaction CN(C)C=O.C[N+](C)(C)[CH2:1][CH2:2]/[N:3]=[CH:4]/[CH:5]=[CH:6]/[c:7
+Error processing reaction CN(C)C=O.[CH3:23][N:22]1[CH2:21][CH2:20][CH:19]([CH2:18][CH2:17][O
+Error processing reaction C1CCOC1.[CH2:36]1[CH2:37]OCCO1.C[CH2:42][N:34]([CH2:35]C)[CH2:26][
+Error processing reaction C1CCO[CH2:1]1.[CH3:11][C:10]([CH3:12])=[CH:9][CH2:8][CH2:7]/[C:5](
+Error processing reaction CC(C)O.[CH3:1][c:2]1[cH:3][cH:4][c:5]([CH:6]2[C@H:7]3[CH:8]=[CH:9]
