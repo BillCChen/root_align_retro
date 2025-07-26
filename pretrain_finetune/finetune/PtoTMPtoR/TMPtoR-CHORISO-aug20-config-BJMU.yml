@@ -1,7 +1,7 @@
 data:
   corpus_1:
-    path_src: dataset/CHORISO_PtoTMPtoR_aug5/train/tmp_product_no_colon.txt
-    path_tgt: dataset/CHORISO_PtoTMPtoR_aug5/train/tmp_reactant_no_colon.txt
+    path_src: dataset/CHORISO_PtoTMPtoR_aug5/train/tmp_product.txt
+    path_tgt: dataset/CHORISO_PtoTMPtoR_aug5/train/tmp_reactant.txt
     weight: 1.0
   valid:
     path_src: dataset/CHORISO_PtoTMPtoR_aug5/val/tmp_product.txt
