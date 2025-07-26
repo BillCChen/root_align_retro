@@ -1,15 +1,15 @@
 data:
   corpus_1:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/train/src-train.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/train/tgt-train.txt
+    path_src: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/train/tmp_reactant.txt
+    path_tgt: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/train/tmp_product.txt
   valid:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/val/src-val.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/val/tgt-val.txt
+    path_src: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/val/tmp_reactant.txt
+    path_tgt: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/val/tmp_product.txt
 
 n_sample: -1
-save_data: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example
-src_vocab: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example.vocab.src
-tgt_vocab: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example.vocab.src
+save_data: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/example
+src_vocab: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/CHORISO.vocab.src
+tgt_vocab: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/CHORISO.vocab.src
 share_vocab: 'true'
 src_seq_length: 500
 tgt_seq_length: 500
