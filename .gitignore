@@ -18,3 +18,4 @@ reinforcement_model/
 logs/
 
 *.ipynb
+*.out
