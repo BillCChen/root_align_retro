@@ -1,0 +1,13 @@
+model: models/TMPtoR_fromUSPTO-FULL_TMP2R_aug10_CHORISO/finetune_average_model_26-30.pt
+src: dataset/CHORISO_PtoTMPtoR_aug5/test/tmp_product_mini.txt
+output: sample/CHORISO_TMPtoR_fromUSPTOFULLP2R_aug10/finetune_model_26-30_CHORISO_mini.txt
+gpu: 0
+beam_size: 10
+n_best: 10
+batch_size: 8192
+batch_type: tokens
+max_length: 500
+seed: 0
+
+
+# CUDA_VISIBLE_DEVICES=1 onmt_translate -config pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-CHORISO-translate.yml
