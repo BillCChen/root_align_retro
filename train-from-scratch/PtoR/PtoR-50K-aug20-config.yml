@@ -15,7 +15,7 @@ src_seq_length: 500
 tgt_seq_length: 500
 overwrite: 'true'
 
-save_model: models/USPTO_50K_PtoR_aug20_abs_pos/model.product-reactants
+save_model: models/PtoR_from-scrarch_onUSPTO_50K_aug20_cls_1/model.product-reactants
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
