@@ -1,10 +1,10 @@
 data:
   corpus_1:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/train/src-train.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/train/tgt-train.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/src-train.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tgt-train.txt
   valid:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/val/src-val.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/val/tgt-val.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/cls/cls_2/src-test.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/cls/cls_2/tgt-test.txt
 
 n_sample: 0
 save_data: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example
@@ -19,7 +19,7 @@ save_model: models/USPTO_50K_PtoR_aug20_abs_pos/model.product-reactants
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
-train_steps: 600000
+train_steps: 300000
 valid_steps: 50000
 warmup_steps: 8000
 report_every: 1000

@@ -165,6 +165,9 @@ def preprocess(save_dir, reactants, products,set_name, augmentation=1, reaction_
 
     print("Avg. edit distance:", np.mean(edit_distances))
     print("Std. edit distance:", np.mean(edit_distances_std))
+    print("Avg. src length:", np.mean([len(src.split()) for src in src_data]))
+    print("Avg. tgt length:", np.mean([len(tgt.split()) for tgt in tgt_data]))
+    print("Avg. total length:", np.mean([len(src.split()) + len(tgt.split()) for src, tgt in zip(src_data, tgt_data)]))
     print('size', len(src_data))
     for key,value in skip_dict.items():
         print(f"{key}:{value},{value/len(reactants)}")
@@ -213,6 +216,7 @@ def multi_process(data):
         # "tmp_data":[],
         # "tmp_data2":[],
         'raw_mapping_data':[],
+        'everage_total_length': 0,
         "edit_distance":0,
         "edit_distance_std":0,
     }
@@ -344,6 +348,9 @@ def multi_process(data):
                     return_status['src_data'].append(smi_tokenizer(pro_smi))
                     return_status['tgt_data'].append(smi_tokenizer(rea_smi))
             edit_distances = []
+            return_status['everage_total_length'] = np.mean([len(src.split()) for src in return_status['src_data']])
+            return_status['everage_total_length'] += np.mean([len(tgt.split()) for tgt in return_status['tgt_data']])
+            return_status['everage_total_length'] /= 2
             for src,tgt in zip(return_status['src_data'],return_status['tgt_data']):
                 edit_distances.append(textdistance.levenshtein.distance(src.split(),tgt.split()))
             return_status['edit_distance'] = np.mean(edit_distances)
@@ -475,7 +482,7 @@ if __name__ == '__main__':
                 )
     else:
         datadir = '/root/reaction_data/pretrain_aug/{}'.format(args.dataset)
-        savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}_trash'.format(args.dataset, args.augmentation)
+        savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}_trash_distance_test'.format(args.dataset, args.augmentation)
 
         savedir += args.postfix
         if not os.path.exists(savedir):
