@@ -1,9 +1,10 @@
 # model: exp/USPTO_50K_PtoR_aug20/average_model_56-60.pt
 # src: dataset/USPTO_50K_PtoR_aug20/test/src-test.txt
 # output: exp/USPTO_50K_PtoR_aug20/average_model_56-60-results.txt
-model: models/USPTO_50K_PtoR_aug20_rope_pos/finetune_average_model_36-40.pt
-src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/test/src-test_mini.txt
-output: sample/retrain_USPTO_50K_PtoR_aug20/USPTO_50K_PtoR_rope_36-40.txt
+model: models/PtoR_from-scrarch_onUSPTO_50K_aug20_cls_1/finetune_average_model_16-20.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/cls/cls_2/src-test.txt
+output: sample/USPTO_50K_PtoR_from-scrarch_onUSPTO_50K_aug20_Moe_1/USPTO_50K_PtoR_16-20_cls_2.txt
+log_file: sample/USPTO_50K_PtoR_from-scrarch_onUSPTO_50K_aug20_Moe_1/USPTO_50K_PtoR_16-20_cls_2.log
 gpu: 0
 beam_size: 10
 n_best: 10
@@ -12,3 +13,4 @@ batch_type: tokens
 max_length: 500
 seed: 0
 
+# CUDA_VISIBLE_DEVICES=0 onmt_translate -config /root/retro_synthesis/root_align_retro/train-from-scratch/PtoR/PtoR-50K-aug20-translate.yml

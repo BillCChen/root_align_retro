@@ -342,7 +342,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-dataset',
                         type=str,
-                        default='USPTO_50K')
+                        default='USPTO_50K_ori_csv')
     parser.add_argument("-augmentation",type=int,default=20)
     parser.add_argument("-seed",type=int,default=33)
     parser.add_argument("-processes",type=int,default=20)
@@ -355,7 +355,7 @@ if __name__ == '__main__':
     parser.add_argument("-postfix",type=str,default="")
     args = parser.parse_args()
     print('preprocessing dataset {}...'.format(args.dataset))
-    assert args.dataset in ['USPTO_50K', 'USPTO_full','USPTO-MIT']
+    assert args.dataset in ['USPTO_50K_ori_csv', 'USPTO_full_ori_csv','USPTO-MIT']
     print(args)
     if args.test_only:
         datasets = ['test']
@@ -370,8 +370,8 @@ if __name__ == '__main__':
 
     random.seed(args.seed)
     if args.dataset == "USPTO-MIT":
-        datadir = './dataset/{}'.format(args.dataset)
-        savedir = './dataset/{}_PtoR_aug{}'.format(args.dataset,args.augmentation)
+        datadir = '/root/reaction_data/pretrain_aug/{}'.format(args.dataset)
+        savedir = '/root/reaction_data/pretrain_aug/{}_PtoR_aug{}'.format(args.dataset,args.augmentation)
         savedir += args.postfix
         if not os.path.exists(savedir):
             os.makedirs(savedir)
@@ -414,7 +414,7 @@ if __name__ == '__main__':
 
     else:
         # datadir = '/root/reaction_data/pretrain_aug/dataset/{}'.format(args.dataset)
-        datadir = '/root/reaction_data/pretrain_aug/USPTO_50K_ori_csv'
+        datadir = '/root/reaction_data/pretrain_aug/{}'.format(args.dataset)
         savedir = '/root/reaction_data/pretrain_aug/{}_PtoTMPtoR_aug{}'.format(args.dataset, args.augmentation)
 
         savedir += args.postfix

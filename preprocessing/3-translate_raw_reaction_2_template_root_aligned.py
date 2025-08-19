@@ -321,11 +321,15 @@ def process_reaction(reaction):
 
 def main():
     split = "train"
-    num = "full"
-    length = 0
-    base = "/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5"
-    base_dir = f"{base}/{split}/tmp_smarts.txt"
-    error_dir = f"{base}/{split}/error_tmp_{num}.txt"
+    num = "0" # 有时候数据过多，可能分批次进行
+    length = 0 # 0: 不分批次，1: 分批次
+    jump = 1 # extended - template 的超参数
+    # >>>
+    aug_num = 5 # !!!!要记得手动修改函数里面的定义
+    # <<<
+    base = "/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20"
+    base_dir = f"{base}/{split}/tmp_smarts_{num}_jump{jump}.txt"
+    error_dir = f"{base}/{split}/error_tmp_{num}_jump{jump}.txt"
 
     # Read input data
     with open(base_dir, 'r') as f:
@@ -340,40 +344,72 @@ def main():
     for result in tqdm(pool.imap_unordered(process_reaction, data), total=len(data), desc="Generating root-aligned templates"):
         
         results.append(result)
-        if len(results) > int(0.99 * len(data)):
-            print("Reached 99% of data processing, stopping early.")
-            # Collect results
-            all_tmp_product = []
-            all_tmp_reactant = []
-            error_tmp = []
-            error_num = 0
+        # if len(results) > int(0.99 * len(data)):
+            # print("Reached 99% of data processing, stopping early.")
+            # # Collect results
+            # all_tmp_product = []
+            # all_tmp_reactant = []
+            # error_tmp = []
+            # error_num = 0
 
-            for templates, _, error in tqdm(results, desc="Collecting results", total=len(results)):
-                if error:
-                    error_tmp.append(error)
-                    error_num += 1
-                for template in templates:
-                    tmp_reactant, tmp_product = template.split('>>')
-                    all_tmp_reactant.append(smi_tokenizer(tmp_reactant))
-                    all_tmp_product.append(smi_tokenizer(tmp_product))
+            # for templates, _, error in tqdm(results, desc="Collecting results", total=len(results)):
+            #     if error:
+            #         error_tmp.append(error)
+            #         error_num += 1
+            #     for template in templates:
+            #         tmp_reactant, tmp_product = template.split('>>')
+            #         all_tmp_reactant.append(smi_tokenizer(tmp_reactant))
+            #         all_tmp_product.append(smi_tokenizer(tmp_product))
 
-            # Print statistics
-            print(f"Total reactions processed: {len(data)}")
-            print(f"Total templates generated: {len(all_tmp_product)}")
-            print(f"Total errors encountered: {error_num}")
-            print(f"Error rate: {error_num / len(data) * 100:.2f}%")
+            # # Print statistics
+            # print(f"Total reactions processed: {len(data)}")
+            # print(f"Total templates generated: {len(all_tmp_product)}")
+            # print(f"Total errors encountered: {error_num}")
+            # print(f"Error rate: {error_num / len(data) * 100:.2f}%")
 
-            # Save results
-            with open(f"{base}/{split}/tmp_product_{num}.txt", "w") as f:
-                for smi in all_tmp_product:
-                    f.write(smi + '\n')
-            with open(f"{base}/{split}/tmp_reactant_{num}.txt", "w") as f:
-                for smi in all_tmp_reactant:
-                    f.write(smi + '\n')
-            with open(error_dir, "w") as f:
-                for err in error_tmp:
-                    f.write(err + '\n')
-            break
+            # # Save results
+            # with open(f"{base}/{split}/tmp_product_jump{jump}.txt", "w") as f:
+            #     for smi in all_tmp_product:
+            #         f.write(smi + '\n')
+            # with open(f"{base}/{split}/tmp_reactant_jump{jump}.txt", "w") as f:
+            #     for smi in all_tmp_reactant:
+            #         f.write(smi + '\n')
+            # with open(error_dir, "w") as f:
+            #     for err in error_tmp:
+            #         f.write(err + '\n')
+            # break
+
+    # Collect results
+    all_tmp_product = []
+    all_tmp_reactant = []
+    error_tmp = []
+    error_num = 0
+
+    for templates, _, error in tqdm(results, desc="Collecting results", total=len(results)):
+        if error:
+            error_tmp.append(error)
+            error_num += 1
+        for template in templates:
+            tmp_reactant, tmp_product = template.split('>>')
+            all_tmp_reactant.append(smi_tokenizer(tmp_reactant))
+            all_tmp_product.append(smi_tokenizer(tmp_product))
+
+    # Print statistics
+    print(f"Total reactions processed: {len(data)}")
+    print(f"Total templates generated: {len(all_tmp_product)}")
+    print(f"Total errors encountered: {error_num}")
+    print(f"Error rate: {error_num / len(data) * 100:.2f}%")
+
+    # Save results
+    with open(f"{base}/{split}/tmp_product_jump{jump}.txt", "w") as f:
+        for smi in all_tmp_product:
+            f.write(smi + '\n')
+    with open(f"{base}/{split}/tmp_reactant_jump{jump}.txt", "w") as f:
+        for smi in all_tmp_reactant:
+            f.write(smi + '\n')
+    with open(error_dir, "w") as f:
+        for err in error_tmp:
+            f.write(err + '\n')
     
     pool.close()
     pool.join()

@@ -20,7 +20,6 @@
 # RDLogger.DisableLog('rdApp.*')
 # import sys
 # sys.path.append("/root/retro_synthesis/template_analysis")
-# from tools.handle_templates import Get_Reaction_
 # # 添加 /root/retro_synthesis/reaction_utils 的库查找路径
 # sys.path.append("/root/retro_synthesis/reaction_utils")
 # from rxnutils.chem.reaction import ChemicalReaction
@@ -139,9 +138,6 @@ from tqdm import tqdm
 from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')
 import sys
-sys.path.append("/root/retro_synthesis/template_analysis")
-sys.path.append("/root/retro_synthesis/reaction_utils")
-from tools.handle_templates import Get_Reaction_
 from rxnutils.chem.reaction import ChemicalReaction
 
 def smi_tokenizer(smi):
@@ -190,7 +186,7 @@ def process_reaction(reaction_):
     try:
         reactant, product, num = reaction_.split('>>')
         if num == "0":
-            template = precise_tempalte_extraction(f"{reactant}>>{product}", 3)
+            template = precise_tempalte_extraction(f"{reactant}>>{product}", 1)
             tmp_reactant, tmp_product = template.split('>>')
             assert len(tmp_reactant) > 0, "The reactant part of the template cannot be empty."
             assert len(tmp_product) > 0, "The product part of the template cannot be empty."
@@ -200,11 +196,12 @@ def process_reaction(reaction_):
         return None, reaction_
 
 def main():
-    split = "train"
+    # conda activate unirxn_G
+    split = "val"
     split_num = 0
-    base_dir = f"/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/{split}/raw_mapping_reaction-{split}-merged.txt"
-    save_dir = f"/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/{split}/tmp_smarts_{split_num}.txt"
-    error_dir = f"/root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/{split}/error_reaction_{split_num}.txt"
+    base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/raw_mapping_reaction-{split}.txt"
+    save_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts_{split_num}_jump1.txt"
+    error_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/error_reaction_{split_num}_jump1.txt"
 
     # Read input data
     with open(base_dir, 'r') as f:
