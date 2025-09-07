@@ -297,9 +297,9 @@ def generate_root_aligned_templates(reactant_smi, product_smi, augmentation=10):
         except Exception:
             pass
     return templates
-
-def process_reaction(reaction):
-    aug_num = 5
+aug_num = 20 # !!!!要记得手动修改函数里面的定义
+def process_reaction(tupled_data):
+    reaction, cls = tupled_data
     try:
         reactant, product = reaction.split('>>')
         templates = generate_root_aligned_templates(reactant, product, augmentation=aug_num)
@@ -310,38 +310,42 @@ def process_reaction(reaction):
                 # templates.append(random.choice(templates))
                 # 一次性补齐到10个
                 templates += random.choices(templates, k=aug_num - len(templates))
-            return templates, None, None
+            return templates, cls, None
         else:
             # 超过10个模板的情况
-            return templates[:aug_num], None, None
+            return templates[:aug_num], cls, None
     except Exception as e:
         # 如果发生错误，返回原始反应作为错误记录
         print(f"Error processing reaction: {reaction[:10]} - {str(e)}")
         return [], None, reaction
 
 def main():
-    split = "train"
-    num = "0" # 有时候数据过多，可能分批次进行
+    split = "test"
+    num = "" # 有时候数据过多，可能分批次进行
     length = 0 # 0: 不分批次，1: 分批次
-    jump = 1 # extended - template 的超参数
+    jump = 3 # extended - template 的超参数
     # >>>
-    aug_num = 5 # !!!!要记得手动修改函数里面的定义
+
     # <<<
     base = "/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20"
-    base_dir = f"{base}/{split}/tmp_smarts_{num}_jump{jump}.txt"
+    base_dir = f"{base}/{split}/tmp_smarts_{num}_jump{jump}_enhance_ring.txt"
+    cls_dir = f"{base}/{split}/tmp_smarts_cls_{num}_jump{jump}.txt"
     error_dir = f"{base}/{split}/error_tmp_{num}_jump{jump}.txt"
 
     # Read input data
     with open(base_dir, 'r') as f:
         data = [line.strip() for line in f.readlines() if line.strip()]
+    with open(cls_dir, 'r') as f:
+        cls_data = [line.strip() for line in f.readlines() if line.strip()]
     print(f"Total reactions loaded: {len(data)}")
+    assert len(data) == len(cls_data), "Data and class data must have the same length."
     # data = data[num*200000:((num+1)*200000+100000*length)]
     # Initialize multiprocessing pool with 40 cores
     pool = multiprocessing.Pool(processes=40)
-    
+    tupled_data = list(zip(data, cls_data)) 
     # Process reactions in parallel with progress bar
     results = []
-    for result in tqdm(pool.imap_unordered(process_reaction, data), total=len(data), desc="Generating root-aligned templates"):
+    for result in tqdm(pool.imap_unordered(process_reaction, tupled_data), total=len(tupled_data), desc="Generating root-aligned templates"):
         
         results.append(result)
         # if len(results) > int(0.99 * len(data)):
@@ -382,10 +386,11 @@ def main():
     # Collect results
     all_tmp_product = []
     all_tmp_reactant = []
+    all_cls = []
     error_tmp = []
     error_num = 0
 
-    for templates, _, error in tqdm(results, desc="Collecting results", total=len(results)):
+    for templates, cls, error in tqdm(results, desc="Collecting results", total=len(results)):
         if error:
             error_tmp.append(error)
             error_num += 1
@@ -393,6 +398,7 @@ def main():
             tmp_reactant, tmp_product = template.split('>>')
             all_tmp_reactant.append(smi_tokenizer(tmp_reactant))
             all_tmp_product.append(smi_tokenizer(tmp_product))
+            all_cls.append(cls)
 
     # Print statistics
     print(f"Total reactions processed: {len(data)}")
@@ -401,12 +407,15 @@ def main():
     print(f"Error rate: {error_num / len(data) * 100:.2f}%")
 
     # Save results
-    with open(f"{base}/{split}/tmp_product_jump{jump}.txt", "w") as f:
+    with open(f"{base}/{split}/tmp_product_jump{jump}_enhance_ring.txt", "w") as f:
         for smi in all_tmp_product:
             f.write(smi + '\n')
-    with open(f"{base}/{split}/tmp_reactant_jump{jump}.txt", "w") as f:
+    with open(f"{base}/{split}/tmp_reactant_jump{jump}_enhance_ring.txt", "w") as f:
         for smi in all_tmp_reactant:
             f.write(smi + '\n')
+    with open(f"{base}/{split}/tmp_product_reactant_cls_{num}_jump{jump}.txt", "w") as f:
+        for cls in all_cls:
+            f.write(cls + '\n')
     with open(error_dir, "w") as f:
         for err in error_tmp:
             f.write(err + '\n')

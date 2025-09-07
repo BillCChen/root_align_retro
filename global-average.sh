@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-model_dir="models/PtoR_from-scrarch_onUSPTO_50K_aug20_cls_1"
+model_dir="models/TMPtoR_jump1_fromUSPTO50K_P2R_aug5_Moe1"
 # 配置参数1
-prefix="model.product-reactants_step_"
+prefix="finetune_model.product-template_step_"
 output_prefix="finetune_average_model"
 # 配置参数2
 # prefix="model.product-reactants_step_"

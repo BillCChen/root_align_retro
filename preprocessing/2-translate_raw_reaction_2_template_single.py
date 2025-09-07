@@ -148,7 +148,7 @@ def smi_tokenizer(smi):
     return ' '.join(tokens)
 
 def precise_tempalte_extraction(reaction_smiles, jump=3, expand_ring=True):
-    template = ChemicalReaction(reaction_smiles).generate_reaction_template(jump, expand_ring)[0].smarts
+    template = ChemicalReaction(reaction_smiles).generate_reaction_template(jump, expand_ring=True)[0].smarts
     assert type(template) == str, "Template extraction failed, expected a string."
     return template
 
@@ -181,38 +181,43 @@ def remove_atom_mapping_template(template):
     else:
         right = remove_mapping(right)
     return left + '>>' + right
-
-def process_reaction(reaction_):
+jump_num = 3
+def process_reaction(tuple_data):
+    reaction_, cls = tuple_data
     try:
         reactant, product, num = reaction_.split('>>')
         if num == "0":
-            template = precise_tempalte_extraction(f"{reactant}>>{product}", 1)
+            template = precise_tempalte_extraction(f"{reactant}>>{product}", jump_num, expand_ring=True)
             tmp_reactant, tmp_product = template.split('>>')
             assert len(tmp_reactant) > 0, "The reactant part of the template cannot be empty."
             assert len(tmp_product) > 0, "The product part of the template cannot be empty."
-            return template, None
-        return None, None
+            return template, None , cls
+        return None, reaction_ , None
     except Exception as e:
-        return None, reaction_
+        return None, reaction_ , None
 
 def main():
     # conda activate unirxn_G
-    split = "val"
-    split_num = 0
+    split = "train"
+    split_num = ""
     base_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/raw_mapping_reaction-{split}.txt"
-    save_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts_{split_num}_jump1.txt"
-    error_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/error_reaction_{split_num}_jump1.txt"
+    cls_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/reaction_cls-{split}.txt"
+    save_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts_{split_num}_jump{jump_num}_enhance_ring.txt"
+    save_cls_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/tmp_smarts_cls_{split_num}_jump{jump_num}.txt"
+    error_dir = f"/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/{split}/error_reaction_{split_num}_jump{jump_num}.txt"
 
     # Read input data
     with open(base_dir, 'r') as f:
         data = [line.strip() for line in f.readlines() if line.strip()]
-
+    with open(cls_dir, 'r') as f:
+        cls_data = [line.strip() for line in f.readlines() if line.strip()]
+    assert len(data) == len(cls_data), "The number of reactions must match the number of classes."
     # Initialize multiprocessing pool with 40 cores
     pool = multiprocessing.Pool(processes=40)
-    
+    tuple_data = list(zip(data, cls_data))
     # Process reactions in parallel with progress bar
     results = []
-    for result in tqdm(pool.imap_unordered(process_reaction, data), total=len(data), desc="Processing reactions"):
+    for result in tqdm(pool.imap_unordered(process_reaction, tuple_data), total=len(tuple_data), desc="Processing reactions"):
         results.append(result)
     
     pool.close()
@@ -220,6 +225,7 @@ def main():
 
     # Separate successful templates and errors
     all_tmp = [r[0] for r in results if r[0] is not None]
+    all_cls = [r[2] for r in results if r[0] is not None]
     error_reaction = [r[1] for r in results if r[1] is not None]
     error_num = len(error_reaction)
 
@@ -233,7 +239,9 @@ def main():
     with open(save_dir, "w") as f:
         for smi in all_tmp:
             f.write(smi + '\n')
-    
+    with open(save_cls_dir, "w") as f:
+        for smi in all_cls:
+            f.write(smi + '\n')
     with open(error_dir, "w") as f:
         for smi in error_reaction:
             f.write(smi + '\n')
