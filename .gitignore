@@ -19,3 +19,7 @@ logs/
 
 *.ipynb
 *.out
+*.err
+test/
+# job 开头的文件
+job*
