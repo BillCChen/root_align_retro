@@ -1,13 +1,13 @@
-model: models/TMPtoR_jump1_fromUSPTO50K_P2R_aug5_Moe1/finetune_average_model_26-30.pt
-src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/cls/cls_2/tmp_product_jump1.txt
-output: sample/USPTO_50K_TMPtoR_jump1_fromUSPTO50K_P2R_aug5_Moe1/finetune_average_model_26-30.txt
-log_file: sample/USPTO_50K_TMPtoR_jump1_fromUSPTO50K_P2R_aug5_Moe1/finetune_average_model_26-30.log
+model: /root/retro_synthesis/root_align_retro/models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_average_model_21-23.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump3_aug20.txt
+output: sample/USPTO_50K_TMPtoR_jump3_from_USPTO50K_P2R_aug20/finetune_average_model_21-23.txt
+log_file: sample/USPTO_50K_TMPtoR_jump3_from_USPTO50K_P2R_aug20/finetune_average_model_21-23.log
 gpu: 0
 beam_size: 10
 n_best: 10
-batch_size: 16384
+batch_size: 8192
 batch_type: tokens
 max_length: 500
 seed: 0
 
-# CUDA_VISIBLE_DEVICES=0 onmt_translate -config /root/retro_synthesis/root_align_retro/pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-50K-aug20-translate.yml
+# CUDA_VISIBLE_DEVICES=1 onmt_translate -config /root/retro_synthesis/root_align_retro/pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-50K-aug20-translate.yml

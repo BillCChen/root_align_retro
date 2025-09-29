@@ -1,0 +1,14 @@
+model: models/TMPtoR_jump3_fromUSPTO50K_P2R_aug20_expand-ring/finetune_average_model_26-30.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/enhance_ring/tmp_product_jump3_enhance_ring_mini.txt
+output: sample/USPTO_50K_TMPtoR_jump3_fromUSPTO50K_P2R_aug20_expand-ring_beam_search/finetune_average_model_26-30_beam10.txt
+log_file: sample/USPTO_50K_TMPtoR_jump3_fromUSPTO50K_P2R_aug20_expand-ring_beam_search/finetune_average_model_26-30_beam10.log
+gpu: 0
+beam_size: 10
+n_best: 10
+batch_size: 16384
+batch_type: tokens
+max_length: 500
+# seed: 0
+seed: 166
+
+# CUDA_VISIBLE_DEVICES=0 onmt_translate -config /root/retro_synthesis/root_align_retro/pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-50K-aug20-translate_beam_search.yml

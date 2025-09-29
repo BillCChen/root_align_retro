@@ -217,6 +217,7 @@ def smi_tokenizer(smi):
     regex = re.compile(pattern)
     tokens = [token for token in regex.findall(smi)]
     assert smi == ''.join(tokens)
+    tokens = [token for token in tokens if token != ':']
     return ' '.join(tokens)
 
 def clear_map_canonical_smiles(smi, canonical=True, root=-1, type_='smarts'):
@@ -297,7 +298,12 @@ def generate_root_aligned_templates(reactant_smi, product_smi, augmentation=10):
         except Exception:
             pass
     return templates
-aug_num = 20 # !!!!要记得手动修改函数里面的定义
+split = "test"
+num = "" # 有时候数据过多，可能分批次进行
+length = 0 # 0: 不分批次，1: 分批次
+jump = 1 # extended - template 的超参数
+cls = ""
+aug_num = 10 # !!!!要记得手动修改函数里面的定义
 def process_reaction(tupled_data):
     reaction, cls = tupled_data
     try:
@@ -320,15 +326,14 @@ def process_reaction(tupled_data):
         return [], None, reaction
 
 def main():
-    split = "test"
-    num = "" # 有时候数据过多，可能分批次进行
-    length = 0 # 0: 不分批次，1: 分批次
-    jump = 3 # extended - template 的超参数
+
     # >>>
 
     # <<<
+    # base = "/root/reaction_data/pretrain_aug/USPTO_FULL_PtoTMPtoR_aug10"
+    # base = "/root/reaction_data/pretrain_aug/USPTO_MIT_PtoTMPtoR_aug10"
     base = "/root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20"
-    base_dir = f"{base}/{split}/tmp_smarts_{num}_jump{jump}_enhance_ring.txt"
+    base_dir = f"{base}/{split}/tmp_smarts_{num}_jump{jump}.txt"
     cls_dir = f"{base}/{split}/tmp_smarts_cls_{num}_jump{jump}.txt"
     error_dir = f"{base}/{split}/error_tmp_{num}_jump{jump}.txt"
 
@@ -407,13 +412,13 @@ def main():
     print(f"Error rate: {error_num / len(data) * 100:.2f}%")
 
     # Save results
-    with open(f"{base}/{split}/tmp_product_jump{jump}_enhance_ring.txt", "w") as f:
+    with open(f"{base}/{split}/tmp_product_jump{jump}_aug{aug_num}.txt", "w") as f:
         for smi in all_tmp_product:
             f.write(smi + '\n')
-    with open(f"{base}/{split}/tmp_reactant_jump{jump}_enhance_ring.txt", "w") as f:
+    with open(f"{base}/{split}/tmp_reactant_jump{jump}_aug{aug_num}.txt", "w") as f:
         for smi in all_tmp_reactant:
             f.write(smi + '\n')
-    with open(f"{base}/{split}/tmp_product_reactant_cls_{num}_jump{jump}.txt", "w") as f:
+    with open(f"{base}/{split}/tmp_product_reactant_cls_{num}_jump{jump}_aug{aug_num}.txt", "w") as f:
         for cls in all_cls:
             f.write(cls + '\n')
     with open(error_dir, "w") as f:

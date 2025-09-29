@@ -1,6 +1,8 @@
-model: models/USPTO_FULL_TMPtoR_fromUSPTO-FULL_TMP2R_aug10/finetune_average_model_26-30.pt
-src: /root/reaction_data/pretrain_aug/CHORISO_PtoTMPtoR_aug5/test/tmp_product_mini.txt
-output: sample/USPTO_FULL_TMPtoR_fromUSPTOFULLP2R_aug10/finetune_model_26-30_CHORISO_mini.txt
+model: models/TMPtoR_jump3_fromUSPTO_FULL_P2R_aug10_expand-ring/finetune_average_model_26-30.pt
+src: /root/reaction_data/pretrain_aug/USPTO_FULL_PtoTMPtoR_aug10/test/tmp_product_jump3_enhance_ring_mini.txt
+output: sample/USPTO_FULL_TMPtoR_fromUSPTOFULLP2R_aug10_expand-ring/finetune_model_26-30.txt
+log_file: sample/USPTO_FULL_TMPtoR_fromUSPTOFULLP2R_aug10_expand-ring/finetune_average_model_26-30.log
+
 gpu: 0
 beam_size: 10
 n_best: 10
@@ -10,4 +12,4 @@ max_length: 500
 seed: 0
 
 
-# CUDA_VISIBLE_DEVICES=1 onmt_translate -config pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-FULL-translate.yml
+# CUDA_VISIBLE_DEVICES=0 onmt_translate -config pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-FULL-translate.yml

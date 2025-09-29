@@ -1,0 +1,65 @@
+# CUDA_VISIBLE_DEVICES=0 onmt_train -config /root/retro_synthesis/root_align_retro/pretrain_finetune/pretrain/TMPtoR-pretrain-50K-config.yml
+# CUDA_VISIBLE_DEVICES=1 onmt_train -config /root/retro_synthesis/root_align_retro/pretrain_finetune/pretrain/TMPtoR-pretrain-50K-config.yml
+data:
+  corpus_1:
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product_jump2_aug10.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant_jump2_aug10.txt
+
+  valid:
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump2_aug10.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump2_aug10.txt
+
+n_sample: 0
+save_data: /root/retro_synthesis/root_align_retro/models/PtoR/50k_ori_vocab
+src_vocab: /root/retro_synthesis/root_align_retro/models/PtoR/50k_ori_vocab.src
+tgt_vocab: /root/retro_synthesis/root_align_retro/models/PtoR/50k_ori_vocab.src
+share_vocab: 'true'
+src_seq_length: 1000
+tgt_seq_length: 1000
+overwrite: 'False'
+
+save_model: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump2_from_scratch_aug10/model.product-template
+# save_config: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump2_from_scratch_aug10/model.product-template.yml
+log_file: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump2_from_scratch_aug10/model.product-template.log
+save_checkpoint_steps: 10000
+keep_checkpoint: 50
+seed: 3435
+train_steps: 500000
+valid_steps: 30000
+warmup_steps: 8000
+report_every: 1000
+
+decoder_type: transformer
+encoder_type: transformer
+word_vec_size: 512
+rnn_size: 512
+layers: 6
+transformer_ff: 2048
+heads: 8
+
+accum_count: 4
+optim: adam
+adam_beta1: 0.9
+adam_beta2: 0.998
+decay_method: noam
+learning_rate: 2.0
+max_grad_norm: 0.0
+
+batch_size: 128
+valid_batch_size: 128
+batch_type: sents
+normalization: sents
+dropout: 0.3
+attention_dropout: 0.3
+label_smoothing: 0.0
+
+max_generator_batches: 32
+
+param_init: 0.0
+param_init_glorot: 'true'
+position_encoding: 'true'
+
+world_size: 1
+gpu_ranks:
+- 0
+

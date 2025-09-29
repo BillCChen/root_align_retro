@@ -1,42 +1,0 @@
-nohup: ignoring input
-preprocessing dataset USPTO_50K...
-Namespace(augmentation=20, canonical=False, character=False, dataset='USPTO_50K', postfix='', processes=16, seed=33, test_except=False, test_only=False, train_only=False, validastrain=False)
-Total Data Size 5007
-[4, 4, 9, 4, 4, 9, 7, 4, 9, 7, 7, 4, 7, 7, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 2, 2, 6, 6, 6, 6, 6, 6, 2, 9, 6, 7, 1, 0, 0, 0, 0, 1, 0, 0]
-  0%|          | 0/5007 [00:00<?, ?it/s]100%|██████████| 5007/5007 [00:00<00:00, 614258.39it/s]Avg. edit distance: 15.29804274016377
-size 100140
-invalid_p:0,0.0
-invalid_r:0,0.0
-small_p:0,0.0
-small_r:0,0.0
-error_mapping:0,0.0
-error_mapping_p:0,0.0
-empty_p:0,0.0
-empty_r:0,0.0
-Total Data Size 5001
-[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 4, 7, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 7, 1, 1]
-
-  0%|          | 0/5001 [00:00<?, ?it/s]100%|██████████| 5001/5001 [00:00<00:00, 595123.26it/s]Avg. edit distance: 15.156458708258349
-size 100020
-invalid_p:0,0.0
-invalid_r:0,0.0
-small_p:0,0.0
-small_r:0,0.0
-error_mapping:0,0.0
-error_mapping_p:0,0.0
-empty_p:0,0.0
-empty_r:0,0.0
-Total Data Size 40008
-[5, 1, 0, 0, 1, 2, 2, 6, 1, 0, 5, 5, 1, 0, 0, 5, 1, 0, 0, 0, 5, 2, 0, 8, 5, 1, 1, 0, 0, 5, 1, 2, 2, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 4, 1, 1, 2, 1, 0]
-
-  0%|          | 0/40008 [00:00<?, ?it/s]100%|██████████| 40008/40008 [00:00<00:00, 636461.86it/s]
-Avg. edit distance: 15.087668424868134
-size 800060
-invalid_p:0,0.0
-invalid_r:0,0.0
-small_p:4,9.998000399920016e-05
-small_r:1,2.499500099980004e-05
-error_mapping:0,0.0
-error_mapping_p:0,0.0
-empty_p:0,0.0
-empty_r:0,0.0

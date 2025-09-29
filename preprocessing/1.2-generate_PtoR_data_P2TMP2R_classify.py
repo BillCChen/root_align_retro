@@ -24,6 +24,7 @@ def smi_tokenizer(smi):
     regex = re.compile(pattern)
     tokens = [token for token in regex.findall(smi)]
     assert smi == ''.join(tokens)
+    tokens = [token for token in tokens if token != ':']
     return ' '.join(tokens)
 
 # def precise_tempalte_extraction(reaction_smiles,jump=3,expand_ring=True):

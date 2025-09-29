@@ -1,13 +1,13 @@
 #!/bin/bash
 
 
-model_dir="models/TMPtoR_jump1_fromUSPTO50K_P2R_aug5_Moe1"
+model_dir="models/USPTO50K_TMPtoR_fromUSPTO50K_P2R_aug10_jump4"
 # 配置参数1
 prefix="finetune_model.product-template_step_"
 output_prefix="finetune_average_model"
 # 配置参数2
-# prefix="model.product-reactants_step_"
-# output_prefix="model"
+# prefix="model.product-template_step_"
+# output_prefix="average_model"
 
 
 # 用户输入参数

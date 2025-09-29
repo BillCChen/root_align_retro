@@ -1,10 +1,11 @@
+# CUDA_VISIBLE_DEVICES=1 onmt_train -config /root/retro_synthesis/root_align_retro/pretrain_finetune/finetune/PtoTMPtoR/TMPtoR-50K-aug20-config.yml
 data:
   corpus_1:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_product.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/cls/cls_1/tmp_reactant.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product_jump2_aug10.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant_jump2_aug10.txt
   valid:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_product.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/val/tmp_reactant.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump2_aug10.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump2_aug10.txt
 
 n_sample: 0
 save_data: /root/reaction_data/pretrain_aug/USPTO_50K_PtoR_aug20/example
@@ -17,8 +18,9 @@ overwrite: 'False'
 
 train_from: models/PtoR/USPTO_50K_PtoR.pt
 reset_optim: 'all'
-save_model: models/TMPtoR_fromUSPTO50K_P2R_aug20_Moe_cls1/finetune_model.product-template
-# save_config: models/TMPtoR_fromUSPTO50K_P2R_aug20_Moe_cls1/finetune_config.yml
+log_file: logs/TMPtoR_fromUSPTO50K_P2R-finetune_jump2.log
+save_model: models/USPTO50K_TMPtoR_fromUSPTO50K_P2R_aug10_jump2/finetune_model.product-template
+# save_config: models/USPTO50K_TMPtoR_fromUSPTO50K_P2R_aug10_jump2/finetune_config.yml
 save_checkpoint_steps: 10000
 keep_checkpoint: 40
 seed: 3435
@@ -57,12 +59,11 @@ param_init: 0.0
 param_init_glorot: 'true'
 position_encoding: 'true'
 
-world_size: 2
+world_size: 1
 gpu_ranks:
 - 0
-- 1
 
 # 日志监控
-log_file: logs/TMPtoR_fromUSPTO50K_P2R-finetune_Moe_cls1.log
+
 tensorboard: True
 tensorboard_log_dir: tensorboard/TMPtoR_fromUSPTO50K_P2R-finetune
