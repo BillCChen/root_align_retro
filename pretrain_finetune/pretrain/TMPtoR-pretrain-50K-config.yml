@@ -22,10 +22,10 @@ save_model: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump2_
 # save_config: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump2_from_scratch_aug10/model.product-template.yml
 log_file: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump2_from_scratch_aug10/model.product-template.log
 save_checkpoint_steps: 10000
-keep_checkpoint: 50
+keep_checkpoint: 30
 seed: 3435
-train_steps: 500000
-valid_steps: 30000
+train_steps: 300000
+valid_steps: 10000
 warmup_steps: 8000
 report_every: 1000
 
