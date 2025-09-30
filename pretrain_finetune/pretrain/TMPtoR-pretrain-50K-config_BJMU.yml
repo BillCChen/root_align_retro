@@ -2,12 +2,12 @@
 # CUDA_VISIBLE_DEVICES=1 onmt_train -config  pretrain_finetune/pretrain/TMPtoR-pretrain-50K-config.yml
 data:
   corpus_1:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product_jump7_aug10.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant_jump7_aug10.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product_jump6_aug10.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant_jump6_aug10.txt
 
   valid:
-    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump7_aug10.txt
-    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump7_aug10.txt
+    path_src: dataset/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump6_aug10.txt
+    path_tgt: dataset/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump6_aug10.txt
 
 n_sample: 0
 save_data:  models/USPTO_50K_PtoTMPtoR_aug20/50k_ori_vocab
@@ -18,9 +18,9 @@ src_seq_length: 1000
 tgt_seq_length: 1000
 overwrite: 'False'
 
-save_model:  models/USPTO50K_TMPtoR_jump7_from_scratch_aug10/model.product-template
-# save_config:  models/USPTO50K_TMPtoR_jump7_from_scratch_aug10/model.product-template.yml
-log_file:  models/USPTO50K_TMPtoR_jump7_from_scratch_aug10/model.product-template.log
+save_model:  models/USPTO50K_TMPtoR_jump6_from_scratch_aug10/model.product-template
+# save_config:  models/USPTO50K_TMPtoR_jump6_from_scratch_aug10/model.product-template.yml
+log_file:  models/USPTO50K_TMPtoR_jump6_from_scratch_aug10/model.product-template.log
 save_checkpoint_steps: 10000
 keep_checkpoint: 30
 seed: 3435
