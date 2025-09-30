@@ -1,7 +1,7 @@
-model: /root/retro_synthesis/root_align_retro/models/TMPtoR_fromUSPTO50K_P2R_aug20/finetune_average_model_21-23.pt
-src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump3_aug20.txt
-output: sample/USPTO_50K_TMPtoR_jump3_from_USPTO50K_P2R_aug20/finetune_average_model_21-23.txt
-log_file: sample/USPTO_50K_TMPtoR_jump3_from_USPTO50K_P2R_aug20/finetune_average_model_21-23.log
+model: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump10_from_scratch_aug10/model.product-template_step_200000.pt
+src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump10_aug10.txt
+output: sample/radius_search/USPTO_50K_TMPtoR_jump10_from_scratch_aug10/finetune_model_20.txt
+log_file: sample/radius_search/USPTO_50K_TMPtoR_jump10_from_scratch_aug10/finetune_model_20.log
 gpu: 0
 beam_size: 10
 n_best: 10

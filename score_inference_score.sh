@@ -2,11 +2,11 @@
 python score.py \
 	-beam_size 10 \
 	-n_best 10 \
-	-augmentation 20 \
-	-targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump3_aug20.txt \
+	-augmentation 10 \
+	-targets /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump10_aug10.txt \
 	-process_number 8 \
 	-score_alpha 1 \
-	-predictions sample/USPTO_50K_TMPtoR_jump3_from_USPTO50K_P2R_aug20/finetune_average_model_21-23.txt \
-	-save_file   sample/USPTO_50K_TMPtoR_jump3_from_USPTO50K_P2R_aug20/finetune_average_model_21-23_result.txt \
+	-predictions sample/radius_search/USPTO_50K_TMPtoR_jump10_from_scratch_aug10/finetune_model_20.txt \
+	-save_file   sample/radius_search/USPTO_50K_TMPtoR_jump10_from_scratch_aug10/finetune_model_20_result.txt \
 	-synthon 
 
