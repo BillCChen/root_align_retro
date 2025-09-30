@@ -2,12 +2,12 @@
 # CUDA_VISIBLE_DEVICES=1 onmt_train -config /root/retro_synthesis/root_align_retro/pretrain_finetune/pretrain/TMPtoR-pretrain-50K-config.yml
 data:
   corpus_1:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product_jump4_aug10.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant_jump4_aug10.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_product_jump3_aug10.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/train/tmp_reactant_jump3_aug10.txt
 
   valid:
-    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump4_aug10.txt
-    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump4_aug10.txt
+    path_src: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_product_jump3_aug10.txt
+    path_tgt: /root/reaction_data/pretrain_aug/USPTO_50K_PtoTMPtoR_aug20/test/tmp_reactant_jump3_aug10.txt
 
 n_sample: 0
 save_data: /root/retro_synthesis/root_align_retro/models/PtoR/50k_ori_vocab
@@ -18,9 +18,9 @@ src_seq_length: 256
 tgt_seq_length: 256
 overwrite: 'False'
 
-save_model: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump4_from_scratch_aug10/model.product-template
-# save_config: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump4_from_scratch_aug10/model.product-template.yml
-log_file: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump4_from_scratch_aug10/model.product-template.log
+save_model: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump3_from_scratch_aug10/model.product-template
+# save_config: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump3_from_scratch_aug10/model.product-template.yml
+log_file: /root/retro_synthesis/root_align_retro/models/USPTO50K_TMPtoR_jump3_from_scratch_aug10/model.product-template.log
 save_checkpoint_steps: 10000
 keep_checkpoint: 30
 seed: 3435
